@@ -11,8 +11,8 @@ function loadSimulator() {
     .replace(/const sel=[\s\S]*?;\n/, '');
   const context = {};
   vm.createContext(context);
-  vm.runInContext(`${core}; globalThis.__simulate = simulate; globalThis.__simulateHousehold = typeof simulateHousehold === 'undefined' ? undefined : simulateHousehold;`, context);
-  return { simulate: context.__simulate, simulateHousehold: context.__simulateHousehold };
+  vm.runInContext(`${core}; globalThis.__simulate = simulate; globalThis.__simulateHousehold = typeof simulateHousehold === 'undefined' ? undefined : simulateHousehold; globalThis.__simulateExpansion = typeof simulateExpansion === 'undefined' ? undefined : simulateExpansion;`, context);
+  return { simulate: context.__simulate, simulateHousehold: context.__simulateHousehold, simulateExpansion: context.__simulateExpansion };
 }
 
 test('a completed day-12 campaign frees its active slot for cleared funds while earnings stay held until day 19', () => {
@@ -68,4 +68,14 @@ test('household calendar discloses per-account Day-12 funding, hold status, and 
   assert.match(html, /household-wide external funding/i);
   assert.match(html, /first 12 funding days/i);
   assert.match(html, /prior earnings held until Day 19/i);
+});
+
+test('bootstrap expansion starts separate Accounts 2 and 3 only after Account 1 funds become available', () => {
+  const { simulateExpansion } = loadSimulator();
+  assert.equal(typeof simulateExpansion, 'function');
+
+  const result = simulateExpansion(14, 38, 'same', '1', 3);
+  assert.equal(JSON.stringify(result.transfers.map(transfer => [transfer.day, transfer.from, transfer.to, transfer.amount])), JSON.stringify([[19, 1, 2, 14], [38, 2, 3, 14]]));
+  assert.equal(JSON.stringify(result.accounts.map(account => account.cycles.map(cycle => cycle.start))), JSON.stringify([[0], [19], [38]]));
+  assert.ok(result.transfers.every(transfer => transfer.day >= 19));
 });
