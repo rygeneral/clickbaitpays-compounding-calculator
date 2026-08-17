@@ -88,3 +88,11 @@ test('fast seed recovery protects only available surplus and never counts held D
   assert.equal(result.recoveryDay, 76);
   assert.equal(result.seedTarget, 14);
 });
+
+test('portfolio strategy considers activation-aware mixes instead of greedy single-level purchases', () => {
+  const { simulate } = loadSimulator();
+  const result = simulate(1320, 11, 'portfolio', '1', 0, 0);
+  assert.equal(JSON.stringify(result.cycles.map(cycle => cycle.level).sort((a,b)=>a-b)), JSON.stringify([1, 5, 5]));
+  assert.equal(result.cash, 46);
+  assert.equal(result.pending, 1572.37);
+});
