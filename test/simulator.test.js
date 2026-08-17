@@ -11,8 +11,8 @@ function loadSimulator() {
     .replace(/const sel=[\s\S]*?;\n/, '');
   const context = {};
   vm.createContext(context);
-  vm.runInContext(`${core}; globalThis.__simulate = simulate; globalThis.__simulateHousehold = typeof simulateHousehold === 'undefined' ? undefined : simulateHousehold; globalThis.__simulateExpansion = typeof simulateExpansion === 'undefined' ? undefined : simulateExpansion; globalThis.__planWithdrawals = typeof planWithdrawals === 'undefined' ? undefined : planWithdrawals; globalThis.__parseWithdrawalRequests = typeof parseWithdrawalRequests === 'undefined' ? undefined : parseWithdrawalRequests;`, context);
-  return { simulate: context.__simulate, simulateHousehold: context.__simulateHousehold, simulateExpansion: context.__simulateExpansion, planWithdrawals: context.__planWithdrawals, parseWithdrawalRequests: context.__parseWithdrawalRequests };
+  vm.runInContext(`${core}; globalThis.__simulate = simulate; globalThis.__simulateHousehold = typeof simulateHousehold === 'undefined' ? undefined : simulateHousehold; globalThis.__simulateExpansion = typeof simulateExpansion === 'undefined' ? undefined : simulateExpansion; globalThis.__planWithdrawals = typeof planWithdrawals === 'undefined' ? undefined : planWithdrawals; globalThis.__parseWithdrawalRequests = typeof parseWithdrawalRequests === 'undefined' ? undefined : parseWithdrawalRequests; globalThis.__formatPlanDate = typeof formatPlanDate === 'undefined' ? undefined : formatPlanDate;`, context);
+  return { simulate: context.__simulate, simulateHousehold: context.__simulateHousehold, simulateExpansion: context.__simulateExpansion, planWithdrawals: context.__planWithdrawals, parseWithdrawalRequests: context.__parseWithdrawalRequests, formatPlanDate: context.__formatPlanDate };
 }
 
 test('a completed day-12 campaign frees its active slot for cleared funds while earnings stay held until day 19', () => {
@@ -208,6 +208,13 @@ test('withdrawal planner parses day:amount pairs and silently drops invalid or n
   assert.equal(JSON.stringify(requests), JSON.stringify([{ day: 30, amount: 50 }, { day: 12, amount: 25.5 }]));
   assert.equal(JSON.stringify(parseWithdrawalRequests('')), '[]');
   assert.equal(JSON.stringify(parseWithdrawalRequests(undefined)), '[]');
+});
+
+test('calendar dates map Day 0, Day 12, and Day 19 without timezone drift', () => {
+  const { formatPlanDate } = loadSimulator();
+  assert.equal(formatPlanDate('2026-08-17', 0), 'Aug 17, 2026');
+  assert.equal(formatPlanDate('2026-08-17', 12), 'Aug 29, 2026');
+  assert.equal(formatPlanDate('2026-08-17', 19), 'Sep 5, 2026');
 });
 
 test('simulate stays well-defined for zero or negative starting balances instead of throwing', () => {
