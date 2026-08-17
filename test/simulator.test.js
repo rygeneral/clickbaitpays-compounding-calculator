@@ -79,3 +79,11 @@ test('bootstrap expansion starts separate Accounts 2 and 3 only after Account 1 
   assert.equal(JSON.stringify(result.accounts.map(account => account.cycles.map(cycle => cycle.start))), JSON.stringify([[0], [19], [38]]));
   assert.ok(result.transfers.every(transfer => transfer.day >= 19));
 });
+
+test('fast seed recovery protects only available surplus and never counts held Day-12 earnings', () => {
+  const { simulate } = loadSimulator();
+  const result = simulate(14, 76, 'same', '1', 0, 0, 'fast');
+  assert.equal(result.protected, 14);
+  assert.equal(result.recoveryDay, 76);
+  assert.equal(result.seedTarget, 14);
+});
