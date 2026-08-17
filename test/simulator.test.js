@@ -78,6 +78,7 @@ test('bootstrap expansion starts separate Accounts 2 and 3 only after Account 1 
   assert.equal(JSON.stringify(result.transfers.map(transfer => [transfer.day, transfer.from, transfer.to, transfer.amount])), JSON.stringify([[19, 1, 2, 14], [38, 2, 3, 14]]));
   assert.equal(JSON.stringify(result.accounts.map(account => account.cycles.map(cycle => cycle.start))), JSON.stringify([[0], [19], [38]]));
   assert.ok(result.transfers.every(transfer => transfer.day >= 19));
+  assert.match(fs.readFileSync('index.html', 'utf8'), /mode==='bootstrap'\)\{const expansion/);
 });
 
 test('fast seed recovery protects only available surplus and never counts held Day-12 earnings', () => {
