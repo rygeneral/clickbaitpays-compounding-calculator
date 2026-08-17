@@ -11,8 +11,14 @@ function loadSimulator() {
     .replace(/const sel=[\s\S]*?;\n/, '');
   const context = {};
   vm.createContext(context);
-  vm.runInContext(`${core}; globalThis.__simulate = simulate; globalThis.__simulateHousehold = typeof simulateHousehold === 'undefined' ? undefined : simulateHousehold; globalThis.__simulateExpansion = typeof simulateExpansion === 'undefined' ? undefined : simulateExpansion; globalThis.__planWithdrawals = typeof planWithdrawals === 'undefined' ? undefined : planWithdrawals; globalThis.__parseWithdrawalRequests = typeof parseWithdrawalRequests === 'undefined' ? undefined : parseWithdrawalRequests; globalThis.__formatPlanDate = typeof formatPlanDate === 'undefined' ? undefined : formatPlanDate;`, context);
-  return { simulate: context.__simulate, simulateHousehold: context.__simulateHousehold, simulateExpansion: context.__simulateExpansion, planWithdrawals: context.__planWithdrawals, parseWithdrawalRequests: context.__parseWithdrawalRequests, formatPlanDate: context.__formatPlanDate };
+  vm.runInContext(`${core}; globalThis.__simulate = simulate; globalThis.__simulateHousehold = typeof simulateHousehold === 'undefined' ? undefined : simulateHousehold; globalThis.__simulateExpansion = typeof simulateExpansion === 'undefined' ? undefined : simulateExpansion; globalThis.__planWithdrawals = typeof planWithdrawals === 'undefined' ? undefined : planWithdrawals; globalThis.__parseWithdrawalRequests = typeof parseWithdrawalRequests === 'undefined' ? undefined : parseWithdrawalRequests; globalThis.__formatPlanDate = typeof formatPlanDate === 'undefined' ? undefined : formatPlanDate; globalThis.__dateToDay = typeof dateToDay === 'undefined' ? undefined : dateToDay; globalThis.__parseCalendarWithdrawalRequests = typeof parseCalendarWithdrawalRequests === 'undefined' ? undefined : parseCalendarWithdrawalRequests; globalThis.__planPercentWithdrawals = typeof planPercentWithdrawals === 'undefined' ? undefined : planPercentWithdrawals; globalThis.__planRecoverThenPercentWithdrawals = typeof planRecoverThenPercentWithdrawals === 'undefined' ? undefined : planRecoverThenPercentWithdrawals;`, context);
+  return { simulate: context.__simulate, simulateHousehold: context.__simulateHousehold, simulateExpansion: context.__simulateExpansion, planWithdrawals: context.__planWithdrawals, parseWithdrawalRequests: context.__parseWithdrawalRequests, formatPlanDate: context.__formatPlanDate, dateToDay: context.__dateToDay, parseCalendarWithdrawalRequests: context.__parseCalendarWithdrawalRequests, planPercentWithdrawals: context.__planPercentWithdrawals, planRecoverThenPercentWithdrawals: context.__planRecoverThenPercentWithdrawals };
+}
+
+function syntheticPath(cash, days, committed = 0) {
+  const path = [];
+  for (let day = 0; day <= days; day += 1) path.push({ day, cash, committed });
+  return path;
 }
 
 test('a completed day-12 campaign frees its active slot for cleared funds while earnings stay held until day 19', () => {
@@ -226,4 +232,97 @@ test('simulate stays well-defined for zero or negative starting balances instead
   const negative = simulate(-50, 10, 'same', '1', 0, 0);
   assert.equal(negative.cycles.length, 0);
   assert.equal(negative.cash, -50);
+});
+
+test('dateToDay maps calendar dates back to day offsets without timezone drift, and rejects dates before start', () => {
+  const { dateToDay } = loadSimulator();
+  assert.equal(typeof dateToDay, 'function');
+  assert.equal(dateToDay('2026-08-17', '2026-08-17'), 0);
+  assert.equal(dateToDay('2026-08-17', '2026-08-29'), 12);
+  assert.equal(dateToDay('2026-08-17', '2026-09-05'), 19);
+  assert.equal(dateToDay('2026-08-17', '2026-08-01'), null, 'a date before the start date is invalid');
+  assert.equal(dateToDay('2026-08-17', 'not-a-date'), null);
+  assert.equal(dateToDay('not-a-date', '2026-08-17'), null);
+  assert.equal(dateToDay('', '2026-08-17'), null);
+});
+
+test('parseCalendarWithdrawalRequests converts date:amount pairs to day:amount and silently drops invalid entries', () => {
+  const { parseCalendarWithdrawalRequests } = loadSimulator();
+  assert.equal(typeof parseCalendarWithdrawalRequests, 'function');
+  const requests = parseCalendarWithdrawalRequests('2026-08-17', '2026-09-15:50, bogus, 2026-08-01:20, 2026-09-20:0, 2026-09-25:25.5');
+  assert.equal(JSON.stringify(requests), JSON.stringify([{ day: 29, amount: 50 }, { day: 39, amount: 25.5 }]));
+  assert.equal(JSON.stringify(parseCalendarWithdrawalRequests('2026-08-17', '')), '[]');
+  assert.equal(JSON.stringify(parseCalendarWithdrawalRequests('2026-08-17', undefined)), '[]');
+});
+
+test('planPercentWithdrawals withdraws a percentage of available (non-held) balance on a fixed interval', () => {
+  const { planPercentWithdrawals } = loadSimulator();
+  assert.equal(typeof planPercentWithdrawals, 'function');
+  const path = syntheticPath(1000, 30);
+
+  const weekly = planPercentWithdrawals(path, 10, 7);
+  assert.equal(JSON.stringify(weekly.map(w => w.day)), JSON.stringify([7, 14, 21, 28]));
+  assert.equal(JSON.stringify(weekly.map(w => w.status)), JSON.stringify(['accepted', 'accepted', 'accepted', 'accepted']));
+  assert.equal(JSON.stringify(weekly.map(w => w.availableCents)), JSON.stringify([100000, 90000, 81000, 72900]));
+  assert.equal(JSON.stringify(weekly.map(w => w.requestedCents)), JSON.stringify([10000, 9000, 8100, 7290]));
+  assert.equal(JSON.stringify(weekly.map(w => w.feeCents)), JSON.stringify([1000, 900, 810, 729]));
+  assert.equal(JSON.stringify(weekly.map(w => w.netCents)), JSON.stringify([9000, 8100, 7290, 6561]));
+
+  const biweekly = planPercentWithdrawals(path, 10, 14);
+  assert.equal(JSON.stringify(biweekly.map(w => w.day)), JSON.stringify([14, 28]));
+  assert.equal(JSON.stringify(biweekly.map(w => w.requestedCents)), JSON.stringify([10000, 9000]));
+});
+
+test('planPercentWithdrawals rejects a scheduled request that would fall below the USDT 10 minimum', () => {
+  const { planPercentWithdrawals } = loadSimulator();
+  const path = syntheticPath(50, 30);
+  const [withdrawal] = planPercentWithdrawals(path, 5, 7);
+  assert.equal(withdrawal.status, 'rejected');
+  assert.match(withdrawal.reason, /10.00 USDT minimum/);
+});
+
+test('planPercentWithdrawals never draws on held (pending/committed) campaign earnings', () => {
+  const { planPercentWithdrawals } = loadSimulator();
+  const path = syntheticPath(20, 30, 5000);
+  const [withdrawal] = planPercentWithdrawals(path, 100, 7);
+  assert.equal(withdrawal.status, 'accepted');
+  assert.equal(withdrawal.requestedCents, 2000);
+  assert.equal(withdrawal.pendingCents, 500000);
+});
+
+test('planRecoverThenPercentWithdrawals recovers starting cash first, then switches to scheduled percentage withdrawals', () => {
+  const { planRecoverThenPercentWithdrawals } = loadSimulator();
+  assert.equal(typeof planRecoverThenPercentWithdrawals, 'function');
+  const path = syntheticPath(1000, 30);
+
+  const plan = planRecoverThenPercentWithdrawals(path, 250, 10, 7);
+  assert.equal(JSON.stringify(plan.map(w => w.day)), JSON.stringify([7, 14, 21, 28]));
+  assert.equal(plan[0].requestedCents, 25000, 'first request recovers exactly the starting cash in one shot since funds are available');
+  assert.equal(plan[0].status, 'accepted');
+  assert.equal(plan[1].requestedCents, 7500, '10% of the 75000 cents remaining available after recovery');
+  assert.equal(plan[2].requestedCents, 6750);
+  assert.equal(plan[3].requestedCents, 6075);
+});
+
+test('planRecoverThenPercentWithdrawals closes out a sub-minimum recovery remainder with a single USDT 10 request instead of stalling forever', () => {
+  const { planRecoverThenPercentWithdrawals } = loadSimulator();
+  const path = syntheticPath(1000, 14);
+
+  const plan = planRecoverThenPercentWithdrawals(path, 5, 10, 7);
+  assert.equal(plan[0].requestedCents, 1000, 'remaining recovery (500 cents) is below the minimum, so it rounds up to the USDT 10 floor');
+  assert.equal(plan[0].status, 'accepted');
+  assert.equal(plan[1].requestedCents, 9900, '10% of the 99000 cents available after recovery closes out');
+});
+
+test('the withdrawal planner UI offers explicit strategy choices instead of a raw day:amount field', () => {
+  const html = fs.readFileSync('index.html', 'utf8');
+  assert.doesNotMatch(html, /Withdrawal requests \(day:amount USDT, comma-separated\)/, 'raw day:amount input should be replaced');
+  assert.match(html, /id="withdrawStrategy"/);
+  assert.match(html, /<option value="none">/);
+  assert.match(html, /<option value="calendar">/);
+  assert.match(html, /<option value="weekly">/);
+  assert.match(html, /<option value="biweekly">/);
+  assert.match(html, /<option value="recover">/);
+  assert.match(html, /id="withdrawCalendarRequests"/);
+  assert.match(html, /id="withdrawPercent"/);
 });
