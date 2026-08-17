@@ -25,43 +25,406 @@
   .schedule{margin:24px 0;overflow-x:auto}.schedule table{min-width:760px}.schedule th,.schedule td{white-space:nowrap}.schedule td:last-child{white-space:normal;min-width:145px}
   .cycle-summary{margin:14px 0 20px;padding:15px;background:#edf2eb;border:1px solid #c8d5c6;border-left:5px solid var(--accent)}.cycle-summary h3{margin:0 0 9px;color:#31533a}.cycle-flow{display:grid;grid-template-columns:1fr 1fr 1.35fr;gap:10px}.cycle-box{background:#fffdf8;border:1px solid #d7d2c5;padding:10px;font-size:13px}.cycle-box b{display:block;font:700 12px Arial,sans-serif;text-transform:uppercase;letter-spacing:.04em;color:#36513e;margin-bottom:4px}.cycle-box strong{font-size:19px;font-variant-numeric:tabular-nums}.cycle-box small{color:var(--muted)}@media(max-width:600px){.cycle-flow{grid-template-columns:1fr}}
   .metrics{grid-template-columns:repeat(3,minmax(0,1fr))}.metric b{font-size:clamp(20px,1.8vw,25px);font-variant-numeric:tabular-nums;white-space:nowrap;letter-spacing:-.025em}.strategy-status{margin-top:5px;padding:8px 10px;background:#edf2eb;border-left:3px solid var(--accent);font-size:12px;color:#36513e}.capacity-plan,.household-plan{margin:18px 0;padding:15px;background:#eef3f7;border:1px solid #c9d7df;border-left:5px solid #496e8a}.capacity-plan h3,.household-plan h3{margin:0 0 9px;color:#31536b}.capacity-plan ol{margin:8px 0 0;padding-left:19px}.capacity-plan li{margin:6px 0}.household-plan{overflow-x:auto}.household-plan table{min-width:650px}.household-plan th,.household-plan td{white-space:normal}.is-disabled{opacity:.58}@media(max-width:650px){.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.metric b{white-space:normal}}
+  .langSwitch{margin-top:16px;display:flex;align-items:center;gap:8px}.langSwitch label{font:700 12px Arial,sans-serif;color:#e8af76;margin:0;text-transform:uppercase;letter-spacing:.06em}.langSwitch select{width:auto;display:inline-block;padding:7px 10px;font:600 13px Arial,sans-serif}
 </style>
 
 </head>
 <body>
-<header><div class="eyebrow" style="color:#e8af76">Independent campaign scenario planner · not affiliated with ClickBaitPays</div><h1>Compounding Planner</h1><p>Compare campaign paths using the published campaign costs, one-time level activations, 12 click days, and seven-day hold. This is a cash-flow model—not a promise, recommendation, or return projection.</p></header>
+<header><div class="eyebrow" style="color:#e8af76" data-i18n="eyebrow">Independent campaign scenario planner · not affiliated with ClickBaitPays</div><h1 data-i18n="h1Title">Compounding Planner</h1><p data-i18n="headerIntro">Compare campaign paths using the published campaign costs, one-time level activations, 12 click days, and seven-day hold. This is a cash-flow model—not a promise, recommendation, or return projection.</p><div class="langSwitch"><label for="langSelect" data-i18n="langLabel">Language</label><select id="langSelect"><option value="en">English</option><option value="es">Español</option></select></div></header>
 <main>
-<div class="notice"><strong>Important reality check:</strong> the published materials describe campaign purchases as advertising services, not investments. This tool assumes every required daily click is completed, every campaign pays exactly as shown, funds are usable immediately after the stated hold, no deposits/withdrawals/referrals occur, and no fees beyond listed activation fees apply. Actual availability, payment timing, platform rules, crypto/network fees, and outcomes can differ.</div>
-<section class="quickstart" aria-label="What this planner does and how to use it"><h2>Plan your campaign path in minutes</h2><p>Use this educational cash-flow tool to compare campaign combinations, Day-12 replacement timing, Day-19 released earnings, separate eligible-adult accounts, and optional withdrawal plans using your own starting balance and calendar date.</p><ol><li><b>1 · Set your starting facts</b>Enter available USDT, a planning period, and—if you want calendar dates—your campaign start date.</li><li><b>2 · Pick a planning style</b>Keep the recommended best-mix setting or compare growth, cash-protection, account, and withdrawal choices.</li><li><b>3 · Run and follow the plan</b>Review the dated action schedule, campaign steps, available-versus-held cash, and withdrawal results. Re-run any time you change an input.</li></ol></section>
-<div class="grid"><aside class="panel controls"><div class="eyebrow">Scenario inputs</div><h2>Set a starting path</h2>
-<label for="cash">Starting available balance (USDT)</label><input id="cash" type="number" min="0" step="0.01" value="14"><div class="help">Use 14 for the first Level 1: 13 campaign + 1 activation. Use 330 for the first Level 4: 300 + 30.</div>
-<label for="days">Planning period</label><select id="days"><option value="365">1 year (365 days)</option><option value="180">6 months (180 days)</option><option value="90">90 days</option></select>
-<label for="startDate">Actual campaign start date</label><input id="startDate" type="date"><div class="help">Optional. When set, every Day 0 / Day 12 / Day 19 action is shown with a calendar date. Leave blank to keep day-number planning only.</div>
-<label for="strategy">How should the planner buy campaigns?</label><select id="strategy"><option value="portfolio">Recommended: compare all campaign combinations (up to 3 active campaigns)</option><option value="ladder">Highest level first: buy the most expensive single campaign affordable</option><option value="roi">Best percentage return: choose the level with the highest modeled return rate</option><option value="same">Repeat one chosen level only</option></select><div class="help" id="strategyStatus"></div>
-<label for="derisk">When should I set aside my starting cash?</label><select id="derisk"><option value="growth">Grow fastest: reinvest in up to 3 active campaigns</option><option value="balanced">Balanced: keep up to 2 active campaigns, then set aside surplus</option><option value="fast">Recover starting cash sooner: keep 1 active campaign, then set aside surplus</option></select><div class="help">An <b>active campaign</b> is one campaign still in its first 12 click days. Each account can have up to 3 active campaigns at once. “Set aside” means Available Balance kept out of the next purchase in this plan—not an automatic platform withdrawal.</div>
-<label for="sameLevel">“Stay at” level</label><select id="sameLevel"></select><div id="sameLevelHelp" class="help"></div>
-<h3>Optional day-12 funds — per selected eligible-adult account</h3><div class="help">Each amount below is applied separately to every selected eligible-adult account; it is not one pooled household deposit. These funds are modeled as already available cash—e.g., a new deposit that has cleared or referral commissions credited to that account’s available balance. Campaign earnings themselves remain in the 7-day hold until Day 19.</div>
-<label for="day12Funds">One-time cash available on Day 12, per selected eligible-adult account (USDT)</label><input id="day12Funds" type="number" min="0" step="0.01" value="0">
-<label for="repeatFunds">Recurring cash available every 12 days, per selected eligible-adult account (USDT)</label><input id="repeatFunds" type="number" min="0" step="0.01" value="0"><div class="help">Applied separately on Days 12, 24, 36 … This lets you compare a regular referral/deposit contribution path.</div>
-<label for="households">Eligible adult accounts to compare</label><select id="households"><option value="1">1 account (one person)</option><option value="2">2 separate eligible adults</option><option value="3">3 separate eligible adults (household maximum)</option></select><div class="help">Comparison only: each scenario is per eligible adult account. Up to 3 accounts total per household/IP; it is not a way for one person to run multiple accounts.</div>
-<label for="householdMode">Household plan</label><select id="householdMode"><option value="parallel">Parallel start: each selected adult begins with the entered balance</option><option value="bootstrap">Bootstrap: Account 1 seeds other eligible adults after funds are available</option></select><div class="help">Bootstrap models a Pay It Forward seed only after funds enter Available Balance. The recipient adult must own and operate their own account.</div>
-<h3>Withdrawal planner — per eligible adult account</h3><label for="withdrawStrategy">Withdrawal plan</label><select id="withdrawStrategy"><option value="none">No withdrawals</option><option value="calendar">My own calendar dates &amp; fixed amounts</option><option value="weekly">Withdraw a % of available balance weekly</option><option value="biweekly">Withdraw a % of available balance every 2 weeks</option><option value="recover">Recover starting cash first, then withdraw a % weekly</option></select><div id="withdrawCalendarFields"><label for="withdrawCalendarRequests">Withdrawal dates &amp; amounts (YYYY-MM-DD:amount USDT, comma-separated)</label><input id="withdrawCalendarRequests" type="text" placeholder="e.g. 2026-09-15:50, 2026-10-15:100" value=""><div class="help">Dates are mapped to plan days from the start date above.</div></div><div id="withdrawPercentFields"><label for="withdrawPercent">Percent of available balance per scheduled withdrawal</label><input id="withdrawPercent" type="number" min="0" max="100" step="1" value="10"></div><div class="help">Checked against this scenario’s available (non-held) balance only. USDT 10 minimum per request, 10% fee, and at most one accepted request per rolling 7 days. Never draws on held (pending) campaign earnings. Not available in Bootstrap view.</div>
-<button id="run">Run scenario</button>
-<div class="note bad"><b>Account rule:</b> published CBP terms say one account per individual and up to three accounts total per household/IP for different adults, with unique emails and the same original sponsor. Register from the home IP—no VPN or mobile-data registration. No proxies, bots, auto-clickers, or identity masking.</div>
+<div class="notice" data-i18n-html="notice"><strong>Important reality check:</strong> the published materials describe campaign purchases as advertising services, not investments. This tool assumes every required daily click is completed, every campaign pays exactly as shown, funds are usable immediately after the stated hold, no deposits/withdrawals/referrals occur, and no fees beyond listed activation fees apply. Actual availability, payment timing, platform rules, crypto/network fees, and outcomes can differ.</div>
+<section class="quickstart" aria-label="What this planner does and how to use it" data-i18n-aria="quickstartAria"><h2 data-i18n="quickstartHeading">Plan your campaign path in minutes</h2><p data-i18n="quickstartIntro">Use this educational cash-flow tool to compare campaign combinations, Day-12 replacement timing, Day-19 released earnings, separate eligible-adult accounts, and optional withdrawal plans using your own starting balance and calendar date.</p><ol><li data-i18n-html="quickstartStep1"><b>1 · Set your starting facts</b>Enter available USDT, a planning period, and—if you want calendar dates—your campaign start date.</li><li data-i18n-html="quickstartStep2"><b>2 · Pick a planning style</b>Keep the recommended best-mix setting or compare growth, cash-protection, account, and withdrawal choices.</li><li data-i18n-html="quickstartStep3"><b>3 · Run and follow the plan</b>Review the dated action schedule, campaign steps, available-versus-held cash, and withdrawal results. Re-run any time you change an input.</li></ol></section>
+<div class="grid"><aside class="panel controls"><div class="eyebrow" data-i18n="scenarioEyebrow">Scenario inputs</div><h2 data-i18n="scenarioHeading">Set a starting path</h2>
+<label for="cash" data-i18n="cashLabel">Starting available balance (USDT)</label><input id="cash" type="number" min="0" step="0.01" value="14"><div class="help" data-i18n="cashHelp">Use 14 for the first Level 1: 13 campaign + 1 activation. Use 330 for the first Level 4: 300 + 30.</div>
+<label for="days" data-i18n="daysLabel">Planning period</label><select id="days"><option value="365" data-i18n="daysOption365">1 year (365 days)</option><option value="180" data-i18n="daysOption180">6 months (180 days)</option><option value="90" data-i18n="daysOption90">90 days</option></select>
+<label for="startDate" data-i18n="startDateLabel">Actual campaign start date</label><input id="startDate" type="date"><div class="help" data-i18n="startDateHelp">Optional. When set, every Day 0 / Day 12 / Day 19 action is shown with a calendar date. Leave blank to keep day-number planning only.</div>
+<label for="strategy" data-i18n="strategyLabel">How should the planner buy campaigns?</label><select id="strategy"><option value="portfolio" data-i18n="strategyOptionPortfolio">Recommended: compare all campaign combinations (up to 3 active campaigns)</option><option value="ladder" data-i18n="strategyOptionLadder">Highest level first: buy the most expensive single campaign affordable</option><option value="roi" data-i18n="strategyOptionRoi">Best percentage return: choose the level with the highest modeled return rate</option><option value="same" data-i18n="strategyOptionSame">Repeat one chosen level only</option></select><div class="help" id="strategyStatus"></div>
+<label for="derisk" data-i18n="deriskLabel">When should I set aside my starting cash?</label><select id="derisk"><option value="growth" data-i18n="deriskOptionGrowth">Grow fastest: reinvest in up to 3 active campaigns</option><option value="balanced" data-i18n="deriskOptionBalanced">Balanced: keep up to 2 active campaigns, then set aside surplus</option><option value="fast" data-i18n="deriskOptionFast">Recover starting cash sooner: keep 1 active campaign, then set aside surplus</option></select><div class="help" data-i18n-html="deriskHelp">An <b>active campaign</b> is one campaign still in its first 12 click days. Each account can have up to 3 active campaigns at once. “Set aside” means Available Balance kept out of the next purchase in this plan—not an automatic platform withdrawal.</div>
+<label for="sameLevel" data-i18n="sameLevelLabel">“Stay at” level</label><select id="sameLevel"></select><div id="sameLevelHelp" class="help"></div>
+<h3 data-i18n="day12FundsHeading">Optional day-12 funds — per selected eligible-adult account</h3><div class="help" data-i18n="day12FundsHeadingHelp">Each amount below is applied separately to every selected eligible-adult account; it is not one pooled household deposit. These funds are modeled as already available cash—e.g., a new deposit that has cleared or referral commissions credited to that account’s available balance. Campaign earnings themselves remain in the 7-day hold until Day 19.</div>
+<label for="day12Funds" data-i18n="day12FundsLabel">One-time cash available on Day 12, per selected eligible-adult account (USDT)</label><input id="day12Funds" type="number" min="0" step="0.01" value="0">
+<label for="repeatFunds" data-i18n="repeatFundsLabel">Recurring cash available every 12 days, per selected eligible-adult account (USDT)</label><input id="repeatFunds" type="number" min="0" step="0.01" value="0"><div class="help" data-i18n="repeatFundsHelp">Applied separately on Days 12, 24, 36 … This lets you compare a regular referral/deposit contribution path.</div>
+<label for="households" data-i18n="householdsLabel">Eligible adult accounts to compare</label><select id="households"><option value="1" data-i18n="householdsOption1">1 account (one person)</option><option value="2" data-i18n="householdsOption2">2 separate eligible adults</option><option value="3" data-i18n="householdsOption3">3 separate eligible adults (household maximum)</option></select><div class="help" data-i18n="householdsHelp">Comparison only: each scenario is per eligible adult account. Up to 3 accounts total per household/IP; it is not a way for one person to run multiple accounts.</div>
+<label for="householdMode" data-i18n="householdModeLabel">Household plan</label><select id="householdMode"><option value="parallel" data-i18n="householdModeOptionParallel">Parallel start: each selected adult begins with the entered balance</option><option value="bootstrap" data-i18n="householdModeOptionBootstrap">Bootstrap: Account 1 seeds other eligible adults after funds are available</option></select><div class="help" data-i18n="householdModeHelp">Bootstrap models a Pay It Forward seed only after funds enter Available Balance. The recipient adult must own and operate their own account.</div>
+<h3 data-i18n="withdrawPlannerHeading">Withdrawal planner — per eligible adult account</h3><label for="withdrawStrategy" data-i18n="withdrawStrategyLabel">Withdrawal plan</label><select id="withdrawStrategy"><option value="none">No withdrawals</option><option value="calendar">My own calendar dates &amp; fixed amounts</option><option value="weekly">Withdraw a % of available balance weekly</option><option value="biweekly">Withdraw a % of available balance every 2 weeks</option><option value="recover">Recover starting cash first, then withdraw a % weekly</option></select><div id="withdrawCalendarFields"><label for="withdrawCalendarRequests" data-i18n="withdrawCalendarLabel">Withdrawal dates &amp; amounts (YYYY-MM-DD:amount USDT, comma-separated)</label><input id="withdrawCalendarRequests" type="text" placeholder="e.g. 2026-09-15:50, 2026-10-15:100" value="" data-i18n-placeholder="withdrawCalendarPlaceholder"><div class="help" data-i18n="withdrawCalendarHelp">Dates are mapped to plan days from the start date above.</div></div><div id="withdrawPercentFields"><label for="withdrawPercent" data-i18n="withdrawPercentLabel">Percent of available balance per scheduled withdrawal</label><input id="withdrawPercent" type="number" min="0" max="100" step="1" value="10"></div><div class="help" data-i18n="withdrawGeneralHelp">Checked against this scenario’s available (non-held) balance only. USDT 10 minimum per request, 10% fee, and at most one accepted request per rolling 7 days. Never draws on held (pending) campaign earnings. Not available in Bootstrap view.</div>
+<button id="run" data-i18n="runButton">Run scenario</button>
+<div class="note bad" data-i18n-html="accountRuleNote"><b>Account rule:</b> published CBP terms say one account per individual and up to three accounts total per household/IP for different adults, with unique emails and the same original sponsor. Register from the home IP—no VPN or mobile-data registration. No proxies, bots, auto-clickers, or identity masking.</div>
 </aside>
-<section class="panel results"><div class="eyebrow">Modeled outcome</div><h2 id="title">One-account, 365-day ladder</h2><div id="cycleExample" class="cycle-summary"></div><div class="metrics" id="metrics"></div><div id="capacityPlan" class="capacity-plan"></div><div id="householdPlan" class="household-plan" hidden></div><div id="expansionPlan" class="household-plan" hidden></div><div id="withdrawPlan" class="schedule"></div>
-<div class="schedule"><h3>Reinvestment schedule — per eligible adult account (first 12 funding days)</h3><table><thead><tr><th>Day</th><th>Calendar date</th><th class="right">Available before purchase</th><th>New campaign(s)</th><th class="right">Cash left</th><th>Next level goal</th></tr></thead><tbody id="events"></tbody></table></div><div class="two"><div><h3>Available-balance path — per eligible adult account</h3><div class="chart" id="chart"></div><div class="legend"><span>Day 0</span><span>Each bar = ~30 days; hover for amount</span><span id="endLabel">Day 365</span></div></div>
-<div><h3>Published level economics</h3><table><thead><tr><th>Level</th><th>First buy</th><th>Later buy</th><th>Expected earnings</th></tr></thead><tbody id="levels"></tbody></table><div class="note" id="interpretation"></div></div></div>
-<details><summary>Model rules and sources</summary><ul><li>Every modeled campaign has three visible milestones: <b>Step 1</b> purchase/start; <b>Step 2</b> Day 12 clicks complete; and <b>Step 3</b> Day 19 expected earnings release after the 7-day hold.</li><li><b>Time-compression assumption:</b> once the Day-12 clicks are complete, that campaign no longer uses one of the three active-campaign slots. A new campaign may start that day only if other cleared, available cash can fund it; the finished campaign’s own expected earnings remain held until Day 19.</li><li>Optional Day-12 funds are treated as cash that is already available in the account—such as cleared new funding or referral commissions already credited to available balance. They never unlock campaign earnings early.</li><li>Each account may have at most 3 active campaigns (campaigns whose Day-12 clicks are not yet complete). The model purchases repeatedly only while a slot and enough available balance exist.</li><li>First purchase at each level includes that level’s one-time activation fee; later purchases of the activated level use only campaign cost.</li><li>“Expected earnings” uses the published 90% figure. It excludes referrals unless explicitly entered as available cash, withdrawals, withdrawal fee, external transaction/network costs, tax, delays, missed clicks, and any additional funding not entered above.</li><li>Sources checked August 14, 2026: CBP <a href="https://clickbaitpays.me/docs/getting_started_guide.pdf" target="_blank" rel="noopener">Getting Started Guide</a>, <a href="https://clickbaitpays.me/questions.php" target="_blank" rel="noopener">FAQ</a>, and <a href="https://clickbaitpays.me/terms.php" target="_blank" rel="noopener">Terms</a>.</li></ul></details>
+<section class="panel results"><div class="eyebrow" data-i18n="modeledOutcomeEyebrow">Modeled outcome</div><h2 id="title">One-account, 365-day ladder</h2><div id="cycleExample" class="cycle-summary"></div><div class="metrics" id="metrics"></div><div id="capacityPlan" class="capacity-plan"></div><div id="householdPlan" class="household-plan" hidden></div><div id="expansionPlan" class="household-plan" hidden></div><div id="withdrawPlan" class="schedule"></div>
+<div class="schedule"><h3 data-i18n="reinvestScheduleHeading">Reinvestment schedule — per eligible adult account (first 12 funding days)</h3><table><thead><tr><th data-i18n="thDay">Day</th><th data-i18n="thCalendarDate">Calendar date</th><th class="right" data-i18n="thAvailableBefore">Available before purchase</th><th data-i18n="thNewCampaigns">New campaign(s)</th><th class="right" data-i18n="thCashLeft">Cash left</th><th data-i18n="thNextGoal">Next level goal</th></tr></thead><tbody id="events"></tbody></table></div><div class="two"><div><h3 data-i18n="availableBalancePathHeading">Available-balance path — per eligible adult account</h3><div class="chart" id="chart"></div><div class="legend"><span data-i18n="chartDay0">Day 0</span><span data-i18n="chartHint">Each bar = ~30 days; hover for amount</span><span id="endLabel">Day 365</span></div></div>
+<div><h3 data-i18n="levelsHeading">Published level economics</h3><table><thead><tr><th data-i18n="thLevel">Level</th><th data-i18n="thFirstBuy">First buy</th><th data-i18n="thLaterBuy">Later buy</th><th data-i18n="thExpectedEarnings">Expected earnings</th></tr></thead><tbody id="levels"></tbody></table><div class="note" id="interpretation"></div></div></div>
+<details><summary data-i18n="modelRulesSummary">Model rules and sources</summary><ul><li data-i18n-html="modelRule1">Every modeled campaign has three visible milestones: <b>Step 1</b> purchase/start; <b>Step 2</b> Day 12 clicks complete; and <b>Step 3</b> Day 19 expected earnings release after the 7-day hold.</li><li data-i18n-html="modelRule2"><b>Time-compression assumption:</b> once the Day-12 clicks are complete, that campaign no longer uses one of the three active-campaign slots. A new campaign may start that day only if other cleared, available cash can fund it; the finished campaign’s own expected earnings remain held until Day 19.</li><li data-i18n="modelRule3">Optional Day-12 funds are treated as cash that is already available in the account—such as cleared new funding or referral commissions already credited to available balance. They never unlock campaign earnings early.</li><li data-i18n="modelRule4">Each account may have at most 3 active campaigns (campaigns whose Day-12 clicks are not yet complete). The model purchases repeatedly only while a slot and enough available balance exist.</li><li data-i18n="modelRule5">First purchase at each level includes that level’s one-time activation fee; later purchases of the activated level use only campaign cost.</li><li data-i18n="modelRule6">“Expected earnings” uses the published 90% figure. It excludes referrals unless explicitly entered as available cash, withdrawals, withdrawal fee, external transaction/network costs, tax, delays, missed clicks, and any additional funding not entered above.</li><li data-i18n-html="modelRule7">Sources checked August 14, 2026: CBP <a href="https://clickbaitpays.me/docs/getting_started_guide.pdf" target="_blank" rel="noopener">Getting Started Guide</a>, <a href="https://clickbaitpays.me/questions.php" target="_blank" rel="noopener">FAQ</a>, and <a href="https://clickbaitpays.me/terms.php" target="_blank" rel="noopener">Terms</a>.</li></ul></details>
 </section></div></main>
 <script>
 const levels=[
  {n:1,c:13,fee:1,pay:17.17,ads:3},{n:2,c:77,fee:7,pay:101.70,ads:3},{n:3,c:150,fee:15,pay:194.40,ads:3},{n:4,c:300,fee:30,pay:388.80,ads:5},{n:5,c:600,fee:60,pay:777.60,ads:6},{n:6,c:1200,fee:120,pay:1555.20,ads:10},{n:7,c:2400,fee:240,pay:3240,ads:20}
 ];
+const I18N={
+ en:{
+  pageTitle:'CBP Compounding Planner — educational model',
+  langLabel:'Language',
+  eyebrow:'Independent campaign scenario planner · not affiliated with ClickBaitPays',
+  h1Title:'Compounding Planner',
+  headerIntro:'Compare campaign paths using the published campaign costs, one-time level activations, 12 click days, and seven-day hold. This is a cash-flow model—not a promise, recommendation, or return projection.',
+  notice:'<strong>Important reality check:</strong> the published materials describe campaign purchases as advertising services, not investments. This tool assumes every required daily click is completed, every campaign pays exactly as shown, funds are usable immediately after the stated hold, no deposits/withdrawals/referrals occur, and no fees beyond listed activation fees apply. Actual availability, payment timing, platform rules, crypto/network fees, and outcomes can differ.',
+  quickstartAria:'What this planner does and how to use it',
+  quickstartHeading:'Plan your campaign path in minutes',
+  quickstartIntro:'Use this educational cash-flow tool to compare campaign combinations, Day-12 replacement timing, Day-19 released earnings, separate eligible-adult accounts, and optional withdrawal plans using your own starting balance and calendar date.',
+  quickstartStep1:'<b>1 · Set your starting facts</b>Enter available USDT, a planning period, and—if you want calendar dates—your campaign start date.',
+  quickstartStep2:'<b>2 · Pick a planning style</b>Keep the recommended best-mix setting or compare growth, cash-protection, account, and withdrawal choices.',
+  quickstartStep3:'<b>3 · Run and follow the plan</b>Review the dated action schedule, campaign steps, available-versus-held cash, and withdrawal results. Re-run any time you change an input.',
+  scenarioEyebrow:'Scenario inputs',
+  scenarioHeading:'Set a starting path',
+  cashLabel:'Starting available balance (USDT)',
+  cashHelp:'Use 14 for the first Level 1: 13 campaign + 1 activation. Use 330 for the first Level 4: 300 + 30.',
+  daysLabel:'Planning period',
+  daysOption365:'1 year (365 days)',
+  daysOption180:'6 months (180 days)',
+  daysOption90:'90 days',
+  startDateLabel:'Actual campaign start date',
+  startDateHelp:'Optional. When set, every Day 0 / Day 12 / Day 19 action is shown with a calendar date. Leave blank to keep day-number planning only.',
+  strategyLabel:'How should the planner buy campaigns?',
+  strategyOptionPortfolio:'Recommended: compare all campaign combinations (up to 3 active campaigns)',
+  strategyOptionLadder:'Highest level first: buy the most expensive single campaign affordable',
+  strategyOptionRoi:'Best percentage return: choose the level with the highest modeled return rate',
+  strategyOptionSame:'Repeat one chosen level only',
+  statusPortfolio:'Portfolio is active: it compares legal 1–3 campaign mixes now, including one-time activation costs, and chooses the highest conditional modeled value plus remaining cash.',
+  statusLadder:'Ladder is active: every purchase uses the highest level currently affordable.',
+  statusRoi:'Return-rate is active: every purchase uses the currently affordable level with the highest modeled percentage return.',
+  statusSame:'Stay-at-level is active: the selected level below is repeated whenever cash and a campaign slot allow.',
+  sameLevelHelpChosen:'Choose the level you want the model to repeat.',
+  sameLevelHelpDefault:'This setting is used only when “Stay at chosen level” is selected.',
+  deriskLabel:'When should I set aside my starting cash?',
+  deriskOptionGrowth:'Grow fastest: reinvest in up to 3 active campaigns',
+  deriskOptionBalanced:'Balanced: keep up to 2 active campaigns, then set aside surplus',
+  deriskOptionFast:'Recover starting cash sooner: keep 1 active campaign, then set aside surplus',
+  deriskHelp:'An <b>active campaign</b> is one campaign still in its first 12 click days. Each account can have up to 3 active campaigns at once. “Set aside” means Available Balance kept out of the next purchase in this plan—not an automatic platform withdrawal.',
+  sameLevelLabel:'“Stay at” level',
+  levelOption:'Level {n}',
+  day12FundsHeading:'Optional day-12 funds — per selected eligible-adult account',
+  day12FundsHeadingHelp:'Each amount below is applied separately to every selected eligible-adult account; it is not one pooled household deposit. These funds are modeled as already available cash—e.g., a new deposit that has cleared or referral commissions credited to that account’s available balance. Campaign earnings themselves remain in the 7-day hold until Day 19.',
+  day12FundsLabel:'One-time cash available on Day 12, per selected eligible-adult account (USDT)',
+  repeatFundsLabel:'Recurring cash available every 12 days, per selected eligible-adult account (USDT)',
+  repeatFundsHelp:'Applied separately on Days 12, 24, 36 … This lets you compare a regular referral/deposit contribution path.',
+  householdsLabel:'Eligible adult accounts to compare',
+  householdsOption1:'1 account (one person)',
+  householdsOption2:'2 separate eligible adults',
+  householdsOption3:'3 separate eligible adults (household maximum)',
+  householdsHelp:'Comparison only: each scenario is per eligible adult account. Up to 3 accounts total per household/IP; it is not a way for one person to run multiple accounts.',
+  householdModeLabel:'Household plan',
+  householdModeOptionParallel:'Parallel start: each selected adult begins with the entered balance',
+  householdModeOptionBootstrap:'Bootstrap: Account 1 seeds other eligible adults after funds are available',
+  householdModeHelp:'Bootstrap models a Pay It Forward seed only after funds enter Available Balance. The recipient adult must own and operate their own account.',
+  withdrawPlannerHeading:'Withdrawal planner — per eligible adult account',
+  withdrawStrategyLabel:'Withdrawal plan',
+  withdrawStrategyOptionNone:'No withdrawals',
+  withdrawStrategyOptionCalendar:'My own calendar dates & fixed amounts',
+  withdrawStrategyOptionWeekly:'Withdraw a % of available balance weekly',
+  withdrawStrategyOptionBiweekly:'Withdraw a % of available balance every 2 weeks',
+  withdrawStrategyOptionRecover:'Recover starting cash first, then withdraw a % weekly',
+  withdrawCalendarLabel:'Withdrawal dates & amounts (YYYY-MM-DD:amount USDT, comma-separated)',
+  withdrawCalendarPlaceholder:'e.g. 2026-09-15:50, 2026-10-15:100',
+  withdrawCalendarHelp:'Dates are mapped to plan days from the start date above.',
+  withdrawPercentLabel:'Percent of available balance per scheduled withdrawal',
+  withdrawGeneralHelp:'Checked against this scenario’s available (non-held) balance only. USDT 10 minimum per request, 10% fee, and at most one accepted request per rolling 7 days. Never draws on held (pending) campaign earnings. Not available in Bootstrap view.',
+  runButton:'Run scenario',
+  accountRuleNote:'<b>Account rule:</b> published CBP terms say one account per individual and up to three accounts total per household/IP for different adults, with unique emails and the same original sponsor. Register from the home IP—no VPN or mobile-data registration. No proxies, bots, auto-clickers, or identity masking.',
+  modeledOutcomeEyebrow:'Modeled outcome',
+  reinvestScheduleHeading:'Reinvestment schedule — per eligible adult account (first 12 funding days)',
+  thDay:'Day',
+  thCalendarDate:'Calendar date',
+  thAvailableBefore:'Available before purchase',
+  thNewCampaigns:'New campaign(s)',
+  thCashLeft:'Cash left',
+  thNextGoal:'Next level goal',
+  availableBalancePathHeading:'Available-balance path — per eligible adult account',
+  chartDay0:'Day 0',
+  chartHint:'Each bar = ~30 days; hover for amount',
+  dayN:'Day {n}',
+  levelsHeading:'Published level economics',
+  thLevel:'Level',
+  thFirstBuy:'First buy',
+  thLaterBuy:'Later buy',
+  thExpectedEarnings:'Expected earnings',
+  modelRulesSummary:'Model rules and sources',
+  modelRule1:'Every modeled campaign has three visible milestones: <b>Step 1</b> purchase/start; <b>Step 2</b> Day 12 clicks complete; and <b>Step 3</b> Day 19 expected earnings release after the 7-day hold.',
+  modelRule2:'<b>Time-compression assumption:</b> once the Day-12 clicks are complete, that campaign no longer uses one of the three active-campaign slots. A new campaign may start that day only if other cleared, available cash can fund it; the finished campaign’s own expected earnings remain held until Day 19.',
+  modelRule3:'Optional Day-12 funds are treated as cash that is already available in the account—such as cleared new funding or referral commissions already credited to available balance. They never unlock campaign earnings early.',
+  modelRule4:'Each account may have at most 3 active campaigns (campaigns whose Day-12 clicks are not yet complete). The model purchases repeatedly only while a slot and enough available balance exist.',
+  modelRule5:'First purchase at each level includes that level’s one-time activation fee; later purchases of the activated level use only campaign cost.',
+  modelRule6:'“Expected earnings” uses the published 90% figure. It excludes referrals unless explicitly entered as available cash, withdrawals, withdrawal fee, external transaction/network costs, tax, delays, missed clicks, and any additional funding not entered above.',
+  modelRule7:'Sources checked August 14, 2026: CBP <a href="https://clickbaitpays.me/docs/getting_started_guide.pdf" target="_blank" rel="noopener">Getting Started Guide</a>, <a href="https://clickbaitpays.me/questions.php" target="_blank" rel="noopener">FAQ</a>, and <a href="https://clickbaitpays.me/terms.php" target="_blank" rel="noopener">Terms</a>.',
+  titleParallel:'{acct}-account comparison — per eligible adult, {days}-day {label} best modeled path',
+  titleBootstrap:'{acct}-account bootstrap — best modeled path where each account maximizes its own capacity before any Pay-It-Forward transfer',
+  labelPortfolio:'activation-aware portfolio',
+  labelLadder:'ladder',
+  labelRoi:'return-rate',
+  labelSame:'stay-at-Level-{n}',
+  metricTotalBootstrap:'Bootstrap household (separate accounts)',
+  metricTotalHousehold:'Household total (separate accounts)',
+  metricTotalSingle:'Per eligible adult account',
+  metricSuffixStartingCash:': starting cash',
+  metricSuffixExternalAdded:': external cash added',
+  metricSuffixAvailableEnd:': available at end',
+  metricSuffixPendingExpected:': pending expected',
+  metricSuffixModeledTotal:': modeled total',
+  metricSeedProtectedAllAccounts:'Seed capital protected (all accounts)',
+  metricSeedProtected:'Seed capital protected',
+  metricSeedProtectedOf:'{protected} of {target}',
+  metricReachedDay:' · reached Day {day}',
+  metricMaxCapacity:'Maximum active capacity',
+  metricIsolatedCount:'{n} isolated',
+  capacityWordAccountSingular:'account',
+  capacityWordAccountPlural:'accounts',
+  capacityHeading:'Capacity roadmap: up to 3 accounts total per household/IP · {acct} eligible {accountWord} selected · up to {capacity} isolated active campaigns',
+  capacityLi1:'<b>Start each eligible adult separately.</b> A Level 1 first campaign needs {seed} per account, so {acct} selected {accountWord} require {seedTotal} in starting cash across those separate accounts. The planner does not pool, transfer, or assume one person may operate another adult’s account.',
+  capacityLi2:'<b>Keep external cash accounting separate.</b> Each Day-12 input is per selected eligible-adult account. With {acct} selected {accountWord}, the household-wide external funding represented is {householdOneTime} one time on Day 12{repeatPart}; it is not one deposit funding every account.',
+  capacityRepeatPart:' and {amount} every 12 days',
+  capacityLi3:'<b>Fill each account’s three slots only with available cash.</b> A campaign is active from its start through its Day-12 clicks. Its expected earnings are still unavailable during the Day-12-to-Day-19 hold.',
+  capacityLi4:'<b>Use the Day-12 opening only for cleared cash.</b> Enter cleared deposits or commissions in the Day-12 fields to see whether they can fund a replacement cycle when a slot opens. Do not count held campaign earnings twice.',
+  capacityLi5:'<b>Scale only within the published household/IP rule.</b> This is not a way for one person to run multiple accounts: each account must belong to and be operated by a different eligible adult, with unique email and the same original sponsor. Register from the home IP, without a VPN or mobile-data registration.',
+  householdCoordHeading:'Household coordination calendar — all {acct} accounts operating together (first 12 funding days)',
+  householdCoordHelp:'This is a synchronized excerpt of the current planning period, not a full household calendar. Balances, activations, clicks, and three-campaign limits remain separate; it does not pool funds or authorize account sharing.',
+  householdFundingDayHeader:'Funding day',
+  householdAccountHeader:'Account {n}',
+  householdSeparateBalance:'separate balance',
+  householdNoCampaigns:'No campaigns can start with these inputs.',
+  householdSlotOpensWithCash:'Slot opens after clicks; {amount} cleared external cash in this account. Prior earnings held until Day 19.',
+  householdSlotOpensNoCash:'Slot opens after clicks; Prior earnings held until Day 19.',
+  householdClearedCashOnly:'{amount} cleared external cash in this account.',
+  householdStartLevel:'Start L{level}{activation}',
+  activationSuffix:' + activation',
+  householdLeftInAccount:'{amount} left in this account',
+  expansionHeading:'Bootstrap expansion plan — Account 1 to {acct} separate eligible adults (first 12 events)',
+  expansionHelp:'Each account first maximizes its own replacement campaigns, up to its active-slot capacity and the selected seed-capital recovery filter; only genuine leftover surplus funds the next modeled 14.00 USDT Pay It Forward seed. This is one best modeled path for comparison, not a profit guarantee or a recommendation to transfer funds. Each recipient owns and operates their own account.',
+  expansionEventDayHeader:'Event day',
+  expansionNoCampaigns:'Starting cash cannot launch Account 1.',
+  expansionPifSent:'PIF {amount} → Account {to}',
+  expansionPifReceived:'PIF {amount} received from Account {from}<br><small>Available Balance only; prior earnings were held until this point.</small>',
+  chartTooltip:'Day {day}: {amount} available',
+  cycleHeading:'One campaign, made simple',
+  cycleStartLabel:'Start · Day {day}{datePart}',
+  cycleBuyLabel:'Buy Level {level}{activation}',
+  cycleFinishLabel:'Finish clicks · Day {day}',
+  cycleClicksDone:'Campaign clicks are done.',
+  cycleHeldNote:'Expected amount remains in the 7-day hold.',
+  cycleReadyLabel:'Ready to use · Day {day}',
+  cycleTotalAvailableSuffix:'total available from this campaign',
+  cycleRepeatNote:'Repeat Level {n}: {repeat} · Amount left: {left}',
+  cycleProgressReached:'Retained cash accumulates between releases. This modeled path first reaches <b>Level {level}</b> on <b>Day {day}</b>.',
+  cycleProgressNotReached:'This scenario does not reach a higher level within the selected period.',
+  cycleEmpty:'Add enough starting balance to begin a campaign.',
+  eventsLevelTag:'L{level}{activation}',
+  eventsGoalNext:'{cost} for L{n}<br><small>{more} more needed</small>',
+  eventsGoalTop:'Top level reached',
+  eventsEmpty:'Starting balance cannot fund a campaign at the selected level/rules.',
+  interpretationText:'<b>How to read the timeline:</b> each purchase is a numbered cycle. <b>Step 1:</b> buy/start; <b>Step 2:</b> Day 12 clicks finish; <b>Step 3:</b> Day 19 expected earnings release after the hold. The published Level 1 first outlay is {first} and later Level 1 purchases are {later}.{fundText} This scenario starts {n} modeled cycles; “{label}” shows one best modeled path under these stated assumptions — <em>not</em> a profit projection, guarantee, or recommendation.',
+  fundTextWith:' The scenario adds {day12} once on Day 12{repeatPart}; that cash is eligible to start another campaign if a slot is open.',
+  fundTextRepeatPart:' plus {repeat} every 12 days',
+  fundTextWithout:' Add cleared funding or referral cash above to test a Day-12 start.',
+  withdrawPlanHelp:'Requests are checked against this scenario’s available (non-held) balance only — pending Day-12-to-Day-19 campaign earnings can never be withdrawn. Rules modeled: {min} minimum per request, a 10% withdrawal fee, and at most one accepted request per rolling 7-day window. This is a best modeled path for comparison, not a promise of processing time, approval, or profit.',
+  thRequestedDay:'Requested day',
+  thRequested:'Requested',
+  thPendingHeld:'Pending (held)',
+  thAvailableNonHeld:'Available (non-held)',
+  thFee10:'Fee (10%)',
+  thNetReceived:'Net received',
+  thStatus:'Status',
+  withdrawStatusAccepted:'Accepted',
+  withdrawStatusRejected:'Rejected — {reason}',
+  withdrawEmptyNone:'No withdrawals selected for this scenario.',
+  withdrawEmptyGeneric:'No withdrawal requests were generated for these inputs.',
+  withdrawTotals:'Totals: {requested} requested · {net} net received across accepted requests.',
+  reasonBelowMin:'Below the {min} minimum withdrawal request.',
+  reasonWeeklyLimit:'Exceeds the weekly withdrawal request limit (one accepted request per {days} days).',
+  reasonHeldBalance:'Exceeds available (non-held) balance; held campaign earnings cannot be withdrawn.'
+ },
+ es:{
+  pageTitle:'Planificador de Interés Compuesto CBP — modelo educativo',
+  langLabel:'Idioma',
+  eyebrow:'Planificador independiente de escenarios de campaña · no afiliado con ClickBaitPays',
+  h1Title:'Planificador de Interés Compuesto',
+  headerIntro:'Compara rutas de campaña usando los costos de campaña publicados, las activaciones de nivel de pago único, los 12 días de clics y la retención de siete días. Este es un modelo de flujo de caja, no una promesa, recomendación ni proyección de rendimiento.',
+  notice:'<strong>Verificación de la realidad importante:</strong> los materiales publicados describen las compras de campañas como servicios publicitarios, no como inversiones. Esta herramienta asume que se completa cada clic diario requerido, que cada campaña paga exactamente como se muestra, que los fondos están disponibles inmediatamente después de la retención indicada, que no ocurren depósitos, retiros ni referidos, y que no se aplican comisiones más allá de las tarifas de activación indicadas. La disponibilidad real, el momento de pago, las reglas de la plataforma, las comisiones de red/cripto y los resultados pueden variar.',
+  quickstartAria:'Qué hace este planificador y cómo usarlo',
+  quickstartHeading:'Planifica tu ruta de campaña en minutos',
+  quickstartIntro:'Usa esta herramienta educativa de flujo de caja para comparar combinaciones de campañas, el momento de reemplazo del Día 12, las ganancias liberadas del Día 19, cuentas separadas de adultos elegibles y planes de retiro opcionales usando tu propio saldo inicial y fecha de calendario.',
+  quickstartStep1:'<b>1 · Define tus datos iniciales</b>Ingresa el USDT disponible, un período de planificación y, si deseas fechas de calendario, la fecha de inicio de tu campaña.',
+  quickstartStep2:'<b>2 · Elige un estilo de planificación</b>Mantén la configuración recomendada de mejor combinación o compara opciones de crecimiento, protección de efectivo, cuentas y retiros.',
+  quickstartStep3:'<b>3 · Ejecuta y sigue el plan</b>Revisa el calendario de acciones con fechas, los pasos de la campaña, el efectivo disponible frente al retenido y los resultados de retiro. Vuelve a ejecutar cada vez que cambies un dato.',
+  scenarioEyebrow:'Datos del escenario',
+  scenarioHeading:'Define una ruta inicial',
+  cashLabel:'Saldo disponible inicial (USDT)',
+  cashHelp:'Usa 14 para el primer Nivel 1: 13 de campaña + 1 de activación. Usa 330 para el primer Nivel 4: 300 + 30.',
+  daysLabel:'Período de planificación',
+  daysOption365:'1 año (365 días)',
+  daysOption180:'6 meses (180 días)',
+  daysOption90:'90 días',
+  startDateLabel:'Fecha real de inicio de campaña',
+  startDateHelp:'Opcional. Cuando se establece, cada acción del Día 0 / Día 12 / Día 19 se muestra con una fecha de calendario. Déjalo en blanco para planificar solo por número de día.',
+  strategyLabel:'¿Cómo debe comprar campañas el planificador?',
+  strategyOptionPortfolio:'Recomendado: compara todas las combinaciones de campañas (hasta 3 campañas activas)',
+  strategyOptionLadder:'Nivel más alto primero: compra la campaña individual más cara que se pueda pagar',
+  strategyOptionRoi:'Mejor rendimiento porcentual: elige el nivel con la tasa de retorno modelada más alta',
+  strategyOptionSame:'Repetir solo un nivel elegido',
+  statusPortfolio:'Cartera está activa: ahora compara combinaciones legales de 1 a 3 campañas, incluyendo los costos de activación de pago único, y elige el mayor valor modelado condicional más el efectivo restante.',
+  statusLadder:'Escalera está activa: cada compra usa el nivel más alto que se puede pagar actualmente.',
+  statusRoi:'Tasa de retorno está activa: cada compra usa el nivel actualmente asequible con el mayor rendimiento porcentual modelado.',
+  statusSame:'Permanecer en un nivel está activo: el nivel seleccionado abajo se repite siempre que el efectivo y un espacio de campaña lo permitan.',
+  sameLevelHelpChosen:'Elige el nivel que deseas que el modelo repita.',
+  sameLevelHelpDefault:'Esta configuración solo se usa cuando se selecciona “Repetir solo un nivel elegido”.',
+  deriskLabel:'¿Cuándo debo apartar mi efectivo inicial?',
+  deriskOptionGrowth:'Crecer lo más rápido: reinvertir en hasta 3 campañas activas',
+  deriskOptionBalanced:'Equilibrado: mantener hasta 2 campañas activas y luego apartar el excedente',
+  deriskOptionFast:'Recuperar el efectivo inicial antes: mantener 1 campaña activa y luego apartar el excedente',
+  deriskHelp:'Una <b>campaña activa</b> es una campaña que aún está en sus primeros 12 días de clics. Cada cuenta puede tener hasta 3 campañas activas a la vez. “Apartar” significa mantener el Saldo Disponible fuera de la próxima compra de este plan, no un retiro automático de la plataforma.',
+  sameLevelLabel:'Nivel para “permanecer”',
+  levelOption:'Nivel {n}',
+  day12FundsHeading:'Fondos opcionales del día 12 — por cada cuenta de adulto elegible seleccionada',
+  day12FundsHeadingHelp:'Cada monto a continuación se aplica por separado a cada cuenta de adulto elegible seleccionada; no es un depósito único agrupado del hogar. Estos fondos se modelan como efectivo ya disponible, por ejemplo, un nuevo depósito ya acreditado o comisiones de referidos ya acreditadas al saldo disponible de esa cuenta. Las ganancias de la campaña en sí permanecen en la retención de 7 días hasta el Día 19.',
+  day12FundsLabel:'Efectivo único disponible el Día 12, por cada cuenta de adulto elegible seleccionada (USDT)',
+  repeatFundsLabel:'Efectivo recurrente disponible cada 12 días, por cada cuenta de adulto elegible seleccionada (USDT)',
+  repeatFundsHelp:'Se aplica por separado en los Días 12, 24, 36… Esto te permite comparar una ruta de aportes regulares por referidos o depósitos.',
+  householdsLabel:'Cuentas de adultos elegibles a comparar',
+  householdsOption1:'1 cuenta (una persona)',
+  householdsOption2:'2 adultos elegibles separados',
+  householdsOption3:'3 adultos elegibles separados (máximo por hogar)',
+  householdsHelp:'Solo comparación: cada escenario es por cuenta de adulto elegible. Hasta 3 cuentas en total por hogar/IP; no es una forma de que una persona opere varias cuentas.',
+  householdModeLabel:'Plan del hogar',
+  householdModeOptionParallel:'Inicio paralelo: cada adulto seleccionado comienza con el saldo ingresado',
+  householdModeOptionBootstrap:'Impulso inicial: la Cuenta 1 aporta semilla a otros adultos elegibles después de que los fondos estén disponibles',
+  householdModeHelp:'El impulso inicial modela un aporte semilla de Pay It Forward solo después de que los fondos ingresen al Saldo Disponible. El adulto receptor debe ser dueño y operar su propia cuenta.',
+  withdrawPlannerHeading:'Planificador de retiros — por cuenta de adulto elegible',
+  withdrawStrategyLabel:'Plan de retiro',
+  withdrawStrategyOptionNone:'Sin retiros',
+  withdrawStrategyOptionCalendar:'Mis propias fechas de calendario y montos fijos',
+  withdrawStrategyOptionWeekly:'Retirar un % del saldo disponible semanalmente',
+  withdrawStrategyOptionBiweekly:'Retirar un % del saldo disponible cada 2 semanas',
+  withdrawStrategyOptionRecover:'Recuperar primero el efectivo inicial y luego retirar un % semanalmente',
+  withdrawCalendarLabel:'Fechas y montos de retiro (AAAA-MM-DD:monto USDT, separados por comas)',
+  withdrawCalendarPlaceholder:'p. ej. 2026-09-15:50, 2026-10-15:100',
+  withdrawCalendarHelp:'Las fechas se convierten a días del plan a partir de la fecha de inicio anterior.',
+  withdrawPercentLabel:'Porcentaje del saldo disponible por retiro programado',
+  withdrawGeneralHelp:'Se verifica solo contra el saldo disponible (no retenido) de este escenario. Mínimo de 10 USDT por solicitud, comisión del 10% y como máximo una solicitud aceptada cada 7 días consecutivos. Nunca se toma de ganancias de campaña retenidas (pendientes). No disponible en la vista de Impulso inicial.',
+  runButton:'Ejecutar escenario',
+  accountRuleNote:'<b>Regla de cuenta:</b> los términos publicados de CBP indican una cuenta por persona y hasta tres cuentas en total por hogar/IP para distintos adultos, con correos únicos y el mismo patrocinador original. Regístrate desde la IP del hogar, sin VPN ni registro por datos móviles. Sin proxies, bots, auto-clickers ni enmascaramiento de identidad.',
+  modeledOutcomeEyebrow:'Resultado modelado',
+  reinvestScheduleHeading:'Calendario de reinversión — por cuenta de adulto elegible (primeros 12 días de financiamiento)',
+  thDay:'Día',
+  thCalendarDate:'Fecha de calendario',
+  thAvailableBefore:'Disponible antes de la compra',
+  thNewCampaigns:'Nueva(s) campaña(s)',
+  thCashLeft:'Efectivo restante',
+  thNextGoal:'Meta del siguiente nivel',
+  availableBalancePathHeading:'Ruta de saldo disponible — por cuenta de adulto elegible',
+  chartDay0:'Día 0',
+  chartHint:'Cada barra = ~30 días; pasa el cursor para ver el monto',
+  dayN:'Día {n}',
+  levelsHeading:'Economía de niveles publicada',
+  thLevel:'Nivel',
+  thFirstBuy:'Primera compra',
+  thLaterBuy:'Compra posterior',
+  thExpectedEarnings:'Ganancias esperadas',
+  modelRulesSummary:'Reglas del modelo y fuentes',
+  modelRule1:'Cada campaña modelada tiene tres hitos visibles: <b>Paso 1</b> compra/inicio; <b>Paso 2</b> se completan los clics del Día 12; y <b>Paso 3</b> liberación de ganancias esperadas del Día 19 tras la retención de 7 días.',
+  modelRule2:'<b>Supuesto de compresión temporal:</b> una vez completados los clics del Día 12, esa campaña deja de ocupar uno de los tres espacios de campaña activa. Una nueva campaña puede iniciar ese mismo día solo si otro efectivo ya disponible puede financiarla; las ganancias esperadas propias de la campaña finalizada permanecen retenidas hasta el Día 19.',
+  modelRule3:'Los fondos opcionales del Día 12 se tratan como efectivo ya disponible en la cuenta, como nuevo financiamiento ya acreditado o comisiones de referidos ya acreditadas al saldo disponible. Nunca liberan las ganancias de campaña antes de tiempo.',
+  modelRule4:'Cada cuenta puede tener como máximo 3 campañas activas (campañas cuyos clics del Día 12 aún no se completan). El modelo compra repetidamente solo mientras exista un espacio y suficiente saldo disponible.',
+  modelRule5:'La primera compra en cada nivel incluye la tarifa de activación de pago único de ese nivel; las compras posteriores del nivel ya activado usan solo el costo de campaña.',
+  modelRule6:'“Ganancias esperadas” usa la cifra publicada del 90%. Excluye referidos a menos que se ingresen explícitamente como efectivo disponible, retiros, la comisión de retiro, costos externos de transacción/red, impuestos, demoras, clics perdidos y cualquier financiamiento adicional no ingresado arriba.',
+  modelRule7:'Fuentes verificadas el 14 de agosto de 2026: CBP <a href="https://clickbaitpays.me/docs/getting_started_guide.pdf" target="_blank" rel="noopener">Guía de introducción</a>, <a href="https://clickbaitpays.me/questions.php" target="_blank" rel="noopener">Preguntas frecuentes</a> y <a href="https://clickbaitpays.me/terms.php" target="_blank" rel="noopener">Términos</a>.',
+  titleParallel:'Comparación de {acct} cuentas — por adulto elegible, mejor ruta modelada de {days} días con {label}',
+  titleBootstrap:'Impulso inicial de {acct} cuentas — mejor ruta modelada donde cada cuenta maximiza su propia capacidad antes de cualquier transferencia Pay It Forward',
+  labelPortfolio:'cartera consciente de activación',
+  labelLadder:'escalera',
+  labelRoi:'tasa de retorno',
+  labelSame:'permanecer-en-Nivel-{n}',
+  metricTotalBootstrap:'Hogar con impulso inicial (cuentas separadas)',
+  metricTotalHousehold:'Total del hogar (cuentas separadas)',
+  metricTotalSingle:'Por cuenta de adulto elegible',
+  metricSuffixStartingCash:': efectivo inicial',
+  metricSuffixExternalAdded:': efectivo externo agregado',
+  metricSuffixAvailableEnd:': disponible al final',
+  metricSuffixPendingExpected:': esperado pendiente',
+  metricSuffixModeledTotal:': total modelado',
+  metricSeedProtectedAllAccounts:'Capital semilla protegido (todas las cuentas)',
+  metricSeedProtected:'Capital semilla protegido',
+  metricSeedProtectedOf:'{protected} de {target}',
+  metricReachedDay:' · alcanzado el Día {day}',
+  metricMaxCapacity:'Capacidad activa máxima',
+  metricIsolatedCount:'{n} aisladas',
+  capacityWordAccountSingular:'cuenta',
+  capacityWordAccountPlural:'cuentas',
+  capacityHeading:'Hoja de ruta de capacidad: hasta 3 cuentas en total por hogar/IP · {acct} {accountWord} elegible(s) seleccionado(s) · hasta {capacity} campañas activas aisladas',
+  capacityLi1:'<b>Comienza cada adulto elegible por separado.</b> La primera campaña de Nivel 1 necesita {seed} por cuenta, por lo que {acct} {accountWord} seleccionado(s) requieren {seedTotal} en efectivo inicial repartido entre esas cuentas separadas. El planificador no agrupa, transfiere ni asume que una persona pueda operar la cuenta de otro adulto.',
+  capacityLi2:'<b>Mantén separada la contabilidad de efectivo externo.</b> Cada dato del Día 12 es por cuenta de adulto elegible seleccionada. Con {acct} {accountWord} seleccionado(s), el financiamiento externo representado a nivel de hogar es {householdOneTime} una vez el Día 12{repeatPart}; no es un solo depósito que financia todas las cuentas.',
+  capacityRepeatPart:' y {amount} cada 12 días',
+  capacityLi3:'<b>Llena los tres espacios de cada cuenta solo con efectivo disponible.</b> Una campaña está activa desde su inicio hasta sus clics del Día 12. Sus ganancias esperadas siguen sin estar disponibles durante la retención del Día 12 al Día 19.',
+  capacityLi4:'<b>Usa la apertura del Día 12 solo para efectivo ya acreditado.</b> Ingresa depósitos o comisiones ya acreditados en los campos del Día 12 para ver si pueden financiar un ciclo de reemplazo cuando se abra un espacio. No cuentes dos veces las ganancias de campaña retenidas.',
+  capacityLi5:'<b>Escala solo dentro de la regla publicada de hogar/IP.</b> Esta no es una forma de que una persona opere varias cuentas: cada cuenta debe pertenecer y ser operada por un adulto elegible distinto, con correo único y el mismo patrocinador original. Regístrate desde la IP del hogar, sin VPN ni registro por datos móviles.',
+  householdCoordHeading:'Calendario de coordinación del hogar — las {acct} cuentas operando juntas (primeros 12 días de financiamiento)',
+  householdCoordHelp:'Este es un extracto sincronizado del período de planificación actual, no un calendario completo del hogar. Los saldos, activaciones, clics y el límite de tres campañas permanecen separados; no agrupa fondos ni autoriza compartir cuentas.',
+  householdFundingDayHeader:'Día de financiamiento',
+  householdAccountHeader:'Cuenta {n}',
+  householdSeparateBalance:'saldo separado',
+  householdNoCampaigns:'No se puede iniciar ninguna campaña con estos datos.',
+  householdSlotOpensWithCash:'El espacio se abre después de los clics; {amount} de efectivo externo acreditado en esta cuenta. Las ganancias previas permanecen retenidas hasta el Día 19.',
+  householdSlotOpensNoCash:'El espacio se abre después de los clics; las ganancias previas permanecen retenidas hasta el Día 19.',
+  householdClearedCashOnly:'{amount} de efectivo externo acreditado en esta cuenta.',
+  householdStartLevel:'Iniciar L{level}{activation}',
+  activationSuffix:' + activación',
+  householdLeftInAccount:'{amount} restante en esta cuenta',
+  expansionHeading:'Plan de expansión de impulso inicial — Cuenta 1 hacia {acct} adultos elegibles separados (primeros 12 eventos)',
+  expansionHelp:'Cada cuenta primero maximiza sus propias campañas de reemplazo, hasta su capacidad de espacios activos y el filtro de recuperación de capital semilla seleccionado; solo el excedente genuino financia la siguiente semilla Pay It Forward modelada de 14.00 USDT. Esta es una mejor ruta modelada para comparación, no una garantía de ganancias ni una recomendación de transferir fondos. Cada receptor es dueño y opera su propia cuenta.',
+  expansionEventDayHeader:'Día del evento',
+  expansionNoCampaigns:'El efectivo inicial no alcanza para iniciar la Cuenta 1.',
+  expansionPifSent:'PIF {amount} → Cuenta {to}',
+  expansionPifReceived:'PIF {amount} recibido de la Cuenta {from}<br><small>Solo Saldo Disponible; las ganancias previas estuvieron retenidas hasta este punto.</small>',
+  chartTooltip:'Día {day}: {amount} disponible',
+  cycleHeading:'Una campaña, explicada de forma simple',
+  cycleStartLabel:'Inicio · Día {day}{datePart}',
+  cycleBuyLabel:'Comprar Nivel {level}{activation}',
+  cycleFinishLabel:'Fin de clics · Día {day}',
+  cycleClicksDone:'Los clics de la campaña están completos.',
+  cycleHeldNote:'El monto esperado permanece en la retención de 7 días.',
+  cycleReadyLabel:'Listo para usar · Día {day}',
+  cycleTotalAvailableSuffix:'total disponible de esta campaña',
+  cycleRepeatNote:'Repetir Nivel {n}: {repeat} · Monto restante: {left}',
+  cycleProgressReached:'El efectivo retenido se acumula entre liberaciones. Esta ruta modelada alcanza por primera vez el <b>Nivel {level}</b> el <b>Día {day}</b>.',
+  cycleProgressNotReached:'Este escenario no alcanza un nivel superior dentro del período seleccionado.',
+  cycleEmpty:'Agrega suficiente saldo inicial para comenzar una campaña.',
+  eventsLevelTag:'L{level}{activation}',
+  eventsGoalNext:'{cost} para L{n}<br><small>faltan {more}</small>',
+  eventsGoalTop:'Nivel máximo alcanzado',
+  eventsEmpty:'El saldo inicial no alcanza para financiar una campaña con el nivel/reglas seleccionados.',
+  interpretationText:'<b>Cómo leer la línea de tiempo:</b> cada compra es un ciclo numerado. <b>Paso 1:</b> compra/inicio; <b>Paso 2:</b> se completan los clics del Día 12; <b>Paso 3:</b> liberación de ganancias esperadas del Día 19 tras la retención. El primer desembolso publicado de Nivel 1 es {first} y las compras posteriores de Nivel 1 son {later}.{fundText} Este escenario inicia {n} ciclos modelados; “{label}” muestra una mejor ruta modelada bajo estos supuestos indicados — <em>no</em> es una proyección de ganancias, garantía ni recomendación.',
+  fundTextWith:' El escenario agrega {day12} una vez el Día 12{repeatPart}; ese efectivo puede usarse para iniciar otra campaña si hay un espacio disponible.',
+  fundTextRepeatPart:' más {repeat} cada 12 días',
+  fundTextWithout:' Agrega arriba financiamiento acreditado o efectivo por referidos para probar un inicio en el Día 12.',
+  withdrawPlanHelp:'Las solicitudes se verifican solo contra el saldo disponible (no retenido) de este escenario — las ganancias de campaña pendientes del Día 12 al Día 19 nunca pueden retirarse. Reglas modeladas: mínimo de {min} por solicitud, una comisión de retiro del 10% y como máximo una solicitud aceptada cada 7 días consecutivos. Esta es una mejor ruta modelada para comparación, no una promesa de tiempo de procesamiento, aprobación ni ganancias.',
+  thRequestedDay:'Día solicitado',
+  thRequested:'Solicitado',
+  thPendingHeld:'Pendiente (retenido)',
+  thAvailableNonHeld:'Disponible (no retenido)',
+  thFee10:'Comisión (10%)',
+  thNetReceived:'Neto recibido',
+  thStatus:'Estado',
+  withdrawStatusAccepted:'Aceptado',
+  withdrawStatusRejected:'Rechazado — {reason}',
+  withdrawEmptyNone:'No se seleccionaron retiros para este escenario.',
+  withdrawEmptyGeneric:'No se generaron solicitudes de retiro con estos datos.',
+  withdrawTotals:'Totales: {requested} solicitado · {net} neto recibido en solicitudes aceptadas.',
+  reasonBelowMin:'Por debajo del mínimo de solicitud de retiro de {min}.',
+  reasonWeeklyLimit:'Supera el límite semanal de solicitudes de retiro (una solicitud aceptada cada {days} días).',
+  reasonHeldBalance:'Supera el saldo disponible (no retenido); las ganancias de campaña retenidas no se pueden retirar.'
+ }
+};
+let currentLang='en';
+function t(key,vars){const table=I18N[currentLang]||I18N.en;let str=Object.prototype.hasOwnProperty.call(table,key)?table[key]:I18N.en[key];if(str===undefined)return key;if(vars){Object.keys(vars).forEach(k=>{str=str.split('{'+k+'}').join(vars[k]);});}return str;}
 const money=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',minimumFractionDigits:2,maximumFractionDigits:2}).format(n).replace('$','')+' USDT';
-function formatPlanDate(startDate,day){if(!/^\d{4}-\d{2}-\d{2}$/.test(startDate||''))return '';const date=new Date(`${startDate}T12:00:00Z`);date.setUTCDate(date.getUTCDate()+day);return new Intl.DateTimeFormat('en-US',{month:'short',day:'numeric',year:'numeric',timeZone:'UTC'}).format(date);}
+function formatPlanDate(startDate,day){if(!/^\d{4}-\d{2}-\d{2}$/.test(startDate||''))return '';const date=new Date(`${startDate}T12:00:00Z`);date.setUTCDate(date.getUTCDate()+day);const locale=currentLang==='es'?'es-ES':'en-US';return new Intl.DateTimeFormat(locale,{month:'short',day:'numeric',year:'numeric',timeZone:'UTC'}).format(date);}
 const sel=document.querySelector('#sameLevel'); levels.forEach(x=>sel.add(new Option('Level '+x.n,x.n))); sel.value='1';
-function updateStrategyUI(){const strategy=document.querySelector('#strategy').value,same=document.querySelector('#sameLevel'),help=document.querySelector('#sameLevelHelp'),status=document.querySelector('#strategyStatus');const messages={portfolio:'Portfolio is active: it compares legal 1–3 campaign mixes now, including one-time activation costs, and chooses the highest conditional modeled value plus remaining cash.',ladder:'Ladder is active: every purchase uses the highest level currently affordable.',roi:'Return-rate is active: every purchase uses the currently affordable level with the highest modeled percentage return.',same:'Stay-at-level is active: the selected level below is repeated whenever cash and a campaign slot allow.'};status.textContent=messages[strategy];same.disabled=strategy!=='same';same.classList.toggle('is-disabled',strategy!=='same');help.textContent=strategy==='same'?'Choose the level you want the model to repeat.':'This setting is used only when “Stay at chosen level” is selected.';}
+function updateStrategyUI(){const strategy=document.querySelector('#strategy').value,same=document.querySelector('#sameLevel'),help=document.querySelector('#sameLevelHelp'),status=document.querySelector('#strategyStatus');const messages={portfolio:t('statusPortfolio'),ladder:t('statusLadder'),roi:t('statusRoi'),same:t('statusSame')};status.textContent=messages[strategy];same.disabled=strategy!=='same';same.classList.toggle('is-disabled',strategy!=='same');help.textContent=strategy==='same'?t('sameLevelHelpChosen'):t('sameLevelHelpDefault');}
 function candidate(level,active){return level.c+(active.has(level.n)?0:level.fee)}
 function bestBasket(balance,active,slots){let best={score:balance,items:[]};function visit(cash,activated,items,held){const score=cash+held;if(score>best.score+.00001)best={score,items};if(items.length>=slots)return;for(const level of levels){const cost=candidate(level,activated);if(cost<=cash+.00001){const next=new Set(activated);next.add(level.n);visit(cash-cost,next,[...items,level],held+level.pay);}}}visit(balance,new Set(active),[],0);return best.items;}
 function choose(balance,active,strategy,same,slots=3){let possible=levels.filter(x=>candidate(x,active)<=balance+.00001); if(!possible.length)return null; if(strategy==='portfolio')return bestBasket(balance,active,slots)[0]||null; if(strategy==='same') return possible.find(x=>x.n===+same)||null; if(strategy==='roi') return possible.sort((a,b)=>(b.pay/candidate(b,active))-(a.pay/candidate(a,active))||b.n-a.n)[0]; return possible[possible.length-1];}
@@ -109,9 +472,9 @@ function evaluateWithdrawalRequest(state,day,requestedCents){
  const availableCents=Math.max(0,toCents(atDay.cash)-state.withdrawnCents);
  const pendingCents=toCents(atDay.committed||0);
  let status='accepted',reason=null;
- if(requestedCents<WITHDRAW_MIN_CENTS){status='rejected';reason=`Below the ${money(10)} minimum withdrawal request.`;}
- else if(state.acceptedDays.some(d=>day-d<WITHDRAW_WINDOW_DAYS)){status='rejected';reason=`Exceeds the weekly withdrawal request limit (one accepted request per ${WITHDRAW_WINDOW_DAYS} days).`;}
- else if(requestedCents>availableCents){status='rejected';reason='Exceeds available (non-held) balance; held campaign earnings cannot be withdrawn.';}
+ if(requestedCents<WITHDRAW_MIN_CENTS){status='rejected';reason=t('reasonBelowMin',{min:money(10)});}
+ else if(state.acceptedDays.some(d=>day-d<WITHDRAW_WINDOW_DAYS)){status='rejected';reason=t('reasonWeeklyLimit',{days:WITHDRAW_WINDOW_DAYS});}
+ else if(requestedCents>availableCents){status='rejected';reason=t('reasonHeldBalance');}
  let feeCents=0,netCents=0;
  if(status==='accepted'){feeCents=Math.round(requestedCents*WITHDRAW_FEE_RATE);netCents=requestedCents-feeCents;state.withdrawnCents+=requestedCents;state.acceptedDays.push(day);}
  return {day,requestedCents,pendingCents,availableCents,feeCents,netCents,status,reason};
@@ -159,18 +522,46 @@ function planRecoverThenPercentWithdrawals(path,startingCash,pct,intervalDays){
  return results;
 }
 function updateWithdrawStrategyUI(){const withdrawStrategy=document.querySelector('#withdrawStrategy').value;document.querySelector('#withdrawCalendarFields').hidden=withdrawStrategy!=='calendar';document.querySelector('#withdrawPercentFields').hidden=!['weekly','biweekly','recover'].includes(withdrawStrategy);}
-function render(){updateStrategyUI();updateWithdrawStrategyUI();const start=+document.querySelector('#cash').value||0,days=+document.querySelector('#days').value,strategy=document.querySelector('#strategy').value,same=document.querySelector('#sameLevel').value,startDate=document.querySelector('#startDate').value,acct=+document.querySelector('#households').value,mode=document.querySelector('#householdMode').value,deRisk=document.querySelector('#derisk').value,day12Funds=+document.querySelector('#day12Funds').value||0,repeatFunds=+document.querySelector('#repeatFunds').value||0;const r=simulate(start,days,strategy,same,day12Funds,repeatFunds,deRisk);const label=strategy==='portfolio'?'activation-aware portfolio':strategy==='ladder'?'ladder':strategy==='roi'?'return-rate':'stay-at-Level-'+same;document.querySelector('#title').textContent=mode==='bootstrap'?`${acct}-account bootstrap — best modeled path where each account maximizes its own capacity before any Pay-It-Forward transfer`:`${acct}-account comparison — per eligible adult, ${days}-day ${label} best modeled path`;
- const expansionSummary=mode==='bootstrap'?simulateExpansion(start,days,strategy,same,acct,day12Funds,repeatFunds,deRisk):null,bootstrapCash=expansionSummary?expansionSummary.accounts.reduce((sum,account)=>sum+account.cash,0):0,bootstrapPending=expansionSummary?expansionSummary.accounts.reduce((sum,account)=>sum+account.open.reduce((sum,cycle)=>sum+cycle.pay,0),0):0,ending=expansionSummary?bootstrapCash+bootstrapPending:r.cash+r.pending,initialTotal=mode==='bootstrap'?start:start*acct,totalLabel=mode==='bootstrap'?'Bootstrap household (separate accounts)':acct>1?'Household total (separate accounts)':'Per eligible adult account',externalTotal=mode==='bootstrap'?0:r.externalAdded*acct,bootstrapProtected=expansionSummary?expansionSummary.accounts.reduce((sum,account)=>sum+account.protectedCash,0):0,bootstrapSeedTarget=expansionSummary?expansionSummary.accounts.reduce((sum,account)=>sum+(account.started?account.seedTarget:0),0):0;const m=[[`${totalLabel}: starting cash`,money(initialTotal)],[`${totalLabel}: external cash added`,money(externalTotal)],[`${totalLabel}: available at end`,money(expansionSummary?bootstrapCash:r.cash*acct)],[`${totalLabel}: pending expected`,money(expansionSummary?bootstrapPending:r.pending*acct)],[`${totalLabel}: modeled total`,money(ending)],...(deRisk==='growth'?[]:mode==='bootstrap'?[['Seed capital protected (all accounts)',`${money(bootstrapProtected)} of ${money(bootstrapSeedTarget)}`]]:[['Seed capital protected',`${money(r.protected*acct)} of ${money(r.seedTarget*acct)}${r.recoveryDay!==null?` · reached Day ${r.recoveryDay}`:''}`]]),['Maximum active capacity',`${acct*3} isolated`]];document.querySelector('#metrics').innerHTML=m.map(([a,b])=>`<div class="metric"><small>${a}</small><b>${b}</b></div>`).join('');
- const seed=levels[0].c+levels[0].fee,accountWord=acct===1?'account':'accounts',capacity=acct*3,householdOneTime=day12Funds*acct,householdRecurring=repeatFunds*acct;document.querySelector('#capacityPlan').innerHTML=`<h3>Capacity roadmap: up to 3 accounts total per household/IP · ${acct} eligible ${accountWord} selected · up to ${capacity} isolated active campaigns</h3><ol><li><b>Start each eligible adult separately.</b> A Level 1 first campaign needs ${money(seed)} per account, so ${acct} selected ${accountWord} require ${money(seed*acct)} in starting cash across those separate accounts. The planner does not pool, transfer, or assume one person may operate another adult’s account.</li><li><b>Keep external cash accounting separate.</b> Each Day-12 input is per selected eligible-adult account. With ${acct} selected ${accountWord}, the household-wide external funding represented is ${money(householdOneTime)} one time on Day 12${repeatFunds?` and ${money(householdRecurring)} every 12 days`:''}; it is not one deposit funding every account.</li><li><b>Fill each account’s three slots only with available cash.</b> A campaign is active from its start through its Day-12 clicks. Its expected earnings are still unavailable during the Day-12-to-Day-19 hold.</li><li><b>Use the Day-12 opening only for cleared cash.</b> Enter cleared deposits or commissions in the Day-12 fields to see whether they can fund a replacement cycle when a slot opens. Do not count held campaign earnings twice.</li><li><b>Scale only within the published household/IP rule.</b> This is not a way for one person to run multiple accounts: each account must belong to and be operated by a different eligible adult, with unique email and the same original sponsor. Register from the home IP, without a VPN or mobile-data registration.</li></ol>`;
- const household=simulateHousehold(start,days,strategy,same,day12Funds,repeatFunds,acct),householdPlan=document.querySelector('#householdPlan');if(acct>1&&mode==='parallel'){const fundingDays=[...new Set(household.accounts.flatMap(account=>account.settlements.map(x=>x.day)))].sort((a,b)=>a-b).slice(0,12);const headings=household.accounts.map(account=>`<th>Account ${account.number}<br><small>separate balance</small></th>`).join('');const rows=fundingDays.map(day=>{const clearedExternal=(day===12?day12Funds:0)+(day>=12&&day%12===0?repeatFunds:0),dayNote=day===12?`<br><small>Slot opens after clicks; ${clearedExternal?`${money(clearedExternal)} cleared external cash in this account. `:''}Prior earnings held until Day 19.</small>`:clearedExternal?`<br><small>${money(clearedExternal)} cleared external cash in this account.</small>`:'';return `<tr><td>Day ${day}</td>${household.accounts.map(account=>{const settlement=account.settlements.find(x=>x.day===day);return `<td>${settlement?`${settlement.started.map(y=>`Start L${y.level}${y.first?' + activation':''}`).join(', ')}<br><small>${money(settlement.after)} left in this account</small>${dayNote}`:'—'}</td>`}).join('')}</tr>`}).join('');householdPlan.hidden=false;householdPlan.innerHTML=`<h3>Household coordination calendar — all ${acct} accounts operating together (first 12 funding days)</h3><p class="help">This is a synchronized excerpt of the current planning period, not a full household calendar. Balances, activations, clicks, and three-campaign limits remain separate; it does not pool funds or authorize account sharing.</p><table><thead><tr><th>Funding day</th>${headings}</tr></thead><tbody>${rows||`<tr><td colspan="${acct+1}">No campaigns can start with these inputs.</td></tr>`}</tbody></table>`;}else{householdPlan.hidden=true;householdPlan.innerHTML='';}
- const expansionPlan=document.querySelector('#expansionPlan');if(mode==='bootstrap'){const expansion=expansionSummary,eventDays=[...new Set([...expansion.transfers.map(x=>x.day),...expansion.accounts.flatMap(account=>account.cycles.map(cycle=>cycle.start))])].sort((a,b)=>a-b).slice(0,12),headings=expansion.accounts.map(account=>`<th>Account ${account.number}</th>`).join(''),rows=eventDays.map(day=>`<tr><td>Day ${day}</td>${expansion.accounts.map(account=>{const starts=account.cycles.filter(cycle=>cycle.start===day).map(cycle=>`Start L${cycle.level}${cycle.first?' + activation':''}`).join(', '),sent=expansion.transfers.find(transfer=>transfer.day===day&&transfer.from===account.number),received=expansion.transfers.find(transfer=>transfer.day===day&&transfer.to===account.number);return `<td>${[starts,sent?`PIF ${money(sent.amount)} → Account ${sent.to}`:'',received?`PIF ${money(received.amount)} received from Account ${received.from}<br><small>Available Balance only; prior earnings were held until this point.</small>`:''].filter(Boolean).join('<br>')||'—'}</td>`}).join('')}</tr>`).join('');expansionPlan.hidden=false;expansionPlan.innerHTML=`<h3>Bootstrap expansion plan — Account 1 to ${acct} separate eligible adults (first 12 events)</h3><p class="help">Each account first maximizes its own replacement campaigns, up to its active-slot capacity and the selected seed-capital recovery filter; only genuine leftover surplus funds the next modeled 14.00 USDT Pay It Forward seed. This is one best modeled path for comparison, not a profit guarantee or a recommendation to transfer funds. Each recipient owns and operates their own account.</p><table><thead><tr><th>Event day</th>${headings}</tr></thead><tbody>${rows||`<tr><td colspan="${acct+1}">Starting cash cannot launch Account 1.</td></tr>`}</tbody></table>`;}else{expansionPlan.hidden=true;expansionPlan.innerHTML='';}document.querySelector('.schedule').hidden=mode==='bootstrap';document.querySelector('.two').hidden=mode==='bootstrap';
+function render(){updateStrategyUI();updateWithdrawStrategyUI();const start=+document.querySelector('#cash').value||0,days=+document.querySelector('#days').value,strategy=document.querySelector('#strategy').value,same=document.querySelector('#sameLevel').value,startDate=document.querySelector('#startDate').value,acct=+document.querySelector('#households').value,mode=document.querySelector('#householdMode').value,deRisk=document.querySelector('#derisk').value,day12Funds=+document.querySelector('#day12Funds').value||0,repeatFunds=+document.querySelector('#repeatFunds').value||0;const r=simulate(start,days,strategy,same,day12Funds,repeatFunds,deRisk);const label=strategy==='portfolio'?t('labelPortfolio'):strategy==='ladder'?t('labelLadder'):strategy==='roi'?t('labelRoi'):t('labelSame',{n:same});document.querySelector('#title').textContent=mode==='bootstrap'?t('titleBootstrap',{acct}):t('titleParallel',{acct,days,label});
+ const expansionSummary=mode==='bootstrap'?simulateExpansion(start,days,strategy,same,acct,day12Funds,repeatFunds,deRisk):null,bootstrapCash=expansionSummary?expansionSummary.accounts.reduce((sum,account)=>sum+account.cash,0):0,bootstrapPending=expansionSummary?expansionSummary.accounts.reduce((sum,account)=>sum+account.open.reduce((sum,cycle)=>sum+cycle.pay,0),0):0,ending=expansionSummary?bootstrapCash+bootstrapPending:r.cash+r.pending,initialTotal=mode==='bootstrap'?start:start*acct,totalLabel=mode==='bootstrap'?t('metricTotalBootstrap'):acct>1?t('metricTotalHousehold'):t('metricTotalSingle'),externalTotal=mode==='bootstrap'?0:r.externalAdded*acct,bootstrapProtected=expansionSummary?expansionSummary.accounts.reduce((sum,account)=>sum+account.protectedCash,0):0,bootstrapSeedTarget=expansionSummary?expansionSummary.accounts.reduce((sum,account)=>sum+(account.started?account.seedTarget:0),0):0;const m=[[`${totalLabel}${t('metricSuffixStartingCash')}`,money(initialTotal)],[`${totalLabel}${t('metricSuffixExternalAdded')}`,money(externalTotal)],[`${totalLabel}${t('metricSuffixAvailableEnd')}`,money(expansionSummary?bootstrapCash:r.cash*acct)],[`${totalLabel}${t('metricSuffixPendingExpected')}`,money(expansionSummary?bootstrapPending:r.pending*acct)],[`${totalLabel}${t('metricSuffixModeledTotal')}`,money(ending)],...(deRisk==='growth'?[]:mode==='bootstrap'?[[t('metricSeedProtectedAllAccounts'),t('metricSeedProtectedOf',{protected:money(bootstrapProtected),target:money(bootstrapSeedTarget)})]]:[[t('metricSeedProtected'),`${t('metricSeedProtectedOf',{protected:money(r.protected*acct),target:money(r.seedTarget*acct)})}${r.recoveryDay!==null?t('metricReachedDay',{day:r.recoveryDay}):''}`]]),[t('metricMaxCapacity'),t('metricIsolatedCount',{n:acct*3})]];document.querySelector('#metrics').innerHTML=m.map(([a,b])=>`<div class="metric"><small>${a}</small><b>${b}</b></div>`).join('');
+ const seed=levels[0].c+levels[0].fee,accountWord=t(acct===1?'capacityWordAccountSingular':'capacityWordAccountPlural'),capacity=acct*3,householdOneTime=day12Funds*acct,householdRecurring=repeatFunds*acct;document.querySelector('#capacityPlan').innerHTML=`<h3>${t('capacityHeading',{acct,accountWord,capacity})}</h3><ol><li>${t('capacityLi1',{seed:money(seed),acct,accountWord,seedTotal:money(seed*acct)})}</li><li>${t('capacityLi2',{acct,accountWord,householdOneTime:money(householdOneTime),repeatPart:repeatFunds?t('capacityRepeatPart',{amount:money(householdRecurring)}):''})}</li><li>${t('capacityLi3')}</li><li>${t('capacityLi4')}</li><li>${t('capacityLi5')}</li></ol>`;
+ const household=simulateHousehold(start,days,strategy,same,day12Funds,repeatFunds,acct),householdPlan=document.querySelector('#householdPlan');if(acct>1&&mode==='parallel'){const fundingDays=[...new Set(household.accounts.flatMap(account=>account.settlements.map(x=>x.day)))].sort((a,b)=>a-b).slice(0,12);const headings=household.accounts.map(account=>`<th>${t('householdAccountHeader',{n:account.number})}<br><small>${t('householdSeparateBalance')}</small></th>`).join('');const rows=fundingDays.map(day=>{const clearedExternal=(day===12?day12Funds:0)+(day>=12&&day%12===0?repeatFunds:0),dayNote=day===12?`<br><small>${clearedExternal?t('householdSlotOpensWithCash',{amount:money(clearedExternal)}):t('householdSlotOpensNoCash')}</small>`:clearedExternal?`<br><small>${t('householdClearedCashOnly',{amount:money(clearedExternal)})}</small>`:'';return `<tr><td>${t('dayN',{n:day})}</td>${household.accounts.map(account=>{const settlement=account.settlements.find(x=>x.day===day);return `<td>${settlement?`${settlement.started.map(y=>t('householdStartLevel',{level:y.level,activation:y.first?t('activationSuffix'):''})).join(', ')}<br><small>${t('householdLeftInAccount',{amount:money(settlement.after)})}</small>${dayNote}`:'—'}</td>`}).join('')}</tr>`}).join('');householdPlan.hidden=false;householdPlan.innerHTML=`<h3>${t('householdCoordHeading',{acct})}</h3><p class="help">${t('householdCoordHelp')}</p><table><thead><tr><th>${t('householdFundingDayHeader')}</th>${headings}</tr></thead><tbody>${rows||`<tr><td colspan="${acct+1}">${t('householdNoCampaigns')}</td></tr>`}</tbody></table>`;}else{householdPlan.hidden=true;householdPlan.innerHTML='';}
+ const expansionPlan=document.querySelector('#expansionPlan');if(mode==='bootstrap'){const expansion=expansionSummary,eventDays=[...new Set([...expansion.transfers.map(x=>x.day),...expansion.accounts.flatMap(account=>account.cycles.map(cycle=>cycle.start))])].sort((a,b)=>a-b).slice(0,12),headings=expansion.accounts.map(account=>`<th>${t('householdAccountHeader',{n:account.number})}</th>`).join(''),rows=eventDays.map(day=>`<tr><td>${t('dayN',{n:day})}</td>${expansion.accounts.map(account=>{const starts=account.cycles.filter(cycle=>cycle.start===day).map(cycle=>t('householdStartLevel',{level:cycle.level,activation:cycle.first?t('activationSuffix'):''})).join(', '),sent=expansion.transfers.find(transfer=>transfer.day===day&&transfer.from===account.number),received=expansion.transfers.find(transfer=>transfer.day===day&&transfer.to===account.number);return `<td>${[starts,sent?t('expansionPifSent',{amount:money(sent.amount),to:sent.to}):'',received?t('expansionPifReceived',{amount:money(received.amount),from:received.from}):''].filter(Boolean).join('<br>')||'—'}</td>`}).join('')}</tr>`).join('');expansionPlan.hidden=false;expansionPlan.innerHTML=`<h3>${t('expansionHeading',{acct})}</h3><p class="help">${t('expansionHelp')}</p><table><thead><tr><th>${t('expansionEventDayHeader')}</th>${headings}</tr></thead><tbody>${rows||`<tr><td colspan="${acct+1}">${t('expansionNoCampaigns')}</td></tr>`}</tbody></table>`;}else{expansionPlan.hidden=true;expansionPlan.innerHTML='';}document.querySelector('.schedule').hidden=mode==='bootstrap';document.querySelector('.two').hidden=mode==='bootstrap';
  document.querySelector('#levels').innerHTML=levels.map(x=>`<tr><td><span class="tag">L${x.n}</span></td><td class="right">${money(x.c+x.fee)}</td><td class="right">${money(x.c)}</td><td class="right">${money(x.pay)}</td></tr>`).join('');
- const sample=[];for(let d=0;d<=days;d+=30)sample.push(r.path[Math.min(d,days)]);if(sample[sample.length-1].day!==days)sample.push(r.path[days]);const max=Math.max(...sample.map(x=>x.cash),1);document.querySelector('#chart').innerHTML=sample.map(x=>`<div class="bar" style="height:${Math.max(2,x.cash/max*100)}%" data-tip="Day ${x.day}: ${money(x.cash)} available"></div>`).join('');document.querySelector('#endLabel').textContent='Day '+days;
- const first=r.cycles[0];if(first){const L=levels.find(x=>x.n===first.level),repeat=L.c,left=first.pay-repeat,firstUpgrade=r.cycles.find(x=>x.level>first.level),progress=firstUpgrade?`Retained cash accumulates between releases. This modeled path first reaches <b>Level ${firstUpgrade.level}</b> on <b>Day ${firstUpgrade.start}</b>.`:`This scenario does not reach a higher level within the selected period.`;document.querySelector('#cycleExample').innerHTML=`<h3>One campaign, made simple</h3><div class="cycle-flow"><div class="cycle-box"><b>Start · Day ${first.start}${formatPlanDate(startDate,first.start)?` · ${formatPlanDate(startDate,first.start)}`:''}</b>Buy Level ${first.level}${first.first?' + activation':''}<br><strong>${money(first.cost)}</strong></div><div class="cycle-box"><b>Finish clicks · Day ${first.clickDone}</b>Campaign clicks are done.<br><small>Expected amount remains in the 7-day hold.</small></div><div class="cycle-box"><b>Ready to use · Day ${first.ready}</b><strong>${money(first.pay)}</strong> total available from this campaign<br><small>Repeat Level ${L.n}: ${money(repeat)} · Amount left: ${money(left)}</small></div></div><div class="help" style="margin-top:10px">${progress}</div>`;}else document.querySelector('#cycleExample').innerHTML='<h3>One campaign, made simple</h3>Add enough starting balance to begin a campaign.';
- document.querySelector('#events').innerHTML=r.settlements.slice(0,12).map(x=>{const started=x.started.map(y=>`L${y.level}${y.first?' + activation':''}`).join(', '),activeBefore=new Set(x.activeBefore),next=levels.find(L=>candidate(L,activeBefore)>x.before+.00001),goal=next?`${money(candidate(next,activeBefore))} for L${next.n}<br><small>${money(candidate(next,activeBefore)-x.before)} more needed</small>`:'Top level reached';return `<tr><td>Day ${x.day}</td><td>${formatPlanDate(startDate,x.day)||'—'}</td><td class="right"><strong>${money(x.before)}</strong></td><td>${started}</td><td class="right">${money(x.after)}</td><td>${goal}</td></tr>`}).join('')||'<tr><td colspan="5">Starting balance cannot fund a campaign at the selected level/rules.</td></tr>';
- const base=levels[0],fundText=(day12Funds||repeatFunds)?` The scenario adds ${money(day12Funds)} once on Day 12${repeatFunds?` plus ${money(repeatFunds)} every 12 days`:''}; that cash is eligible to start another campaign if a slot is open.`:' Add cleared funding or referral cash above to test a Day-12 start.';document.querySelector('#interpretation').innerHTML=`<b>How to read the timeline:</b> each purchase is a numbered cycle. <b>Step 1:</b> buy/start; <b>Step 2:</b> Day 12 clicks finish; <b>Step 3:</b> Day 19 expected earnings release after the hold. The published Level 1 first outlay is ${money(base.c+base.fee)} and later Level 1 purchases are ${money(base.c)}.${fundText} This scenario starts ${r.cycleNo} modeled cycles; “${label}” shows one best modeled path under these stated assumptions — <em>not</em> a profit projection, guarantee, or recommendation.`;
+ const sample=[];for(let d=0;d<=days;d+=30)sample.push(r.path[Math.min(d,days)]);if(sample[sample.length-1].day!==days)sample.push(r.path[days]);const max=Math.max(...sample.map(x=>x.cash),1);document.querySelector('#chart').innerHTML=sample.map(x=>`<div class="bar" style="height:${Math.max(2,x.cash/max*100)}%" data-tip="${t('chartTooltip',{day:x.day,amount:money(x.cash)})}"></div>`).join('');document.querySelector('#endLabel').textContent=t('dayN',{n:days});
+ const first=r.cycles[0];if(first){const L=levels.find(x=>x.n===first.level),repeat=L.c,left=first.pay-repeat,firstUpgrade=r.cycles.find(x=>x.level>first.level),progress=firstUpgrade?t('cycleProgressReached',{level:firstUpgrade.level,day:firstUpgrade.start}):t('cycleProgressNotReached');document.querySelector('#cycleExample').innerHTML=`<h3>${t('cycleHeading')}</h3><div class="cycle-flow"><div class="cycle-box"><b>${t('cycleStartLabel',{day:first.start,datePart:formatPlanDate(startDate,first.start)?` · ${formatPlanDate(startDate,first.start)}`:''})}</b>${t('cycleBuyLabel',{level:first.level,activation:first.first?t('activationSuffix'):''})}<br><strong>${money(first.cost)}</strong></div><div class="cycle-box"><b>${t('cycleFinishLabel',{day:first.clickDone})}</b>${t('cycleClicksDone')}<br><small>${t('cycleHeldNote')}</small></div><div class="cycle-box"><b>${t('cycleReadyLabel',{day:first.ready})}</b><strong>${money(first.pay)}</strong> ${t('cycleTotalAvailableSuffix')}<br><small>${t('cycleRepeatNote',{n:L.n,repeat:money(repeat),left:money(left)})}</small></div></div><div class="help" style="margin-top:10px">${progress}</div>`;}else document.querySelector('#cycleExample').innerHTML=`<h3>${t('cycleHeading')}</h3>${t('cycleEmpty')}`;
+ document.querySelector('#events').innerHTML=r.settlements.slice(0,12).map(x=>{const started=x.started.map(y=>t('eventsLevelTag',{level:y.level,activation:y.first?t('activationSuffix'):''})).join(', '),activeBefore=new Set(x.activeBefore),next=levels.find(L=>candidate(L,activeBefore)>x.before+.00001),goal=next?t('eventsGoalNext',{cost:money(candidate(next,activeBefore)),n:next.n,more:money(candidate(next,activeBefore)-x.before)}):t('eventsGoalTop');return `<tr><td>${t('dayN',{n:x.day})}</td><td>${formatPlanDate(startDate,x.day)||'—'}</td><td class="right"><strong>${money(x.before)}</strong></td><td>${started}</td><td class="right">${money(x.after)}</td><td>${goal}</td></tr>`}).join('')||`<tr><td colspan="5">${t('eventsEmpty')}</td></tr>`;
+ const base=levels[0],fundText=(day12Funds||repeatFunds)?t('fundTextWith',{day12:money(day12Funds),repeatPart:repeatFunds?t('fundTextRepeatPart',{repeat:money(repeatFunds)}):''}):t('fundTextWithout');document.querySelector('#interpretation').innerHTML=t('interpretationText',{first:money(base.c+base.fee),later:money(base.c),fundText,n:r.cycleNo,label});
  const withdrawStrategy=document.querySelector('#withdrawStrategy').value,withdrawPercent=+document.querySelector('#withdrawPercent').value||0;let withdrawals=[];if(withdrawStrategy==='calendar')withdrawals=planWithdrawals(r.path,parseCalendarWithdrawalRequests(startDate,document.querySelector('#withdrawCalendarRequests').value));else if(withdrawStrategy==='weekly')withdrawals=planPercentWithdrawals(r.path,withdrawPercent,7);else if(withdrawStrategy==='biweekly')withdrawals=planPercentWithdrawals(r.path,withdrawPercent,14);else if(withdrawStrategy==='recover')withdrawals=planRecoverThenPercentWithdrawals(r.path,start,withdrawPercent,7);
- const withdrawPlan=document.querySelector('#withdrawPlan');withdrawPlan.hidden=mode==='bootstrap';if(mode!=='bootstrap'){const totalsRequested=withdrawals.reduce((sum,w)=>sum+w.requestedCents,0),totalsNet=withdrawals.filter(w=>w.status==='accepted').reduce((sum,w)=>sum+w.netCents,0),rows=withdrawals.map(w=>`<tr><td>Day ${w.day}${formatPlanDate(startDate,w.day)?` · ${formatPlanDate(startDate,w.day)}`:''}</td><td class="right">${money(w.requestedCents/100)}</td><td class="right">${money(w.pendingCents/100)}</td><td class="right">${money(w.availableCents/100)}</td><td class="right">${w.status==='accepted'?money(w.feeCents/100):'—'}</td><td class="right"><strong>${w.status==='accepted'?money(w.netCents/100):'—'}</strong></td><td>${w.status==='accepted'?'<span class="tag">Accepted</span>':`Rejected — ${w.reason}`}</td></tr>`).join('');const emptyMessage=withdrawStrategy==='none'?'No withdrawals selected for this scenario.':'No withdrawal requests were generated for these inputs.';withdrawPlan.innerHTML=`<h3>Withdrawal planner — per eligible adult account</h3><p class="help">Requests are checked against this scenario’s available (non-held) balance only — pending Day-12-to-Day-19 campaign earnings can never be withdrawn. Rules modeled: ${money(10)} minimum per request, a 10% withdrawal fee, and at most one accepted request per rolling 7-day window. This is a best modeled path for comparison, not a promise of processing time, approval, or profit.</p><table><thead><tr><th>Requested day</th><th class="right">Requested</th><th class="right">Pending (held)</th><th class="right">Available (non-held)</th><th class="right">Fee (10%)</th><th class="right">Net received</th><th>Status</th></tr></thead><tbody>${rows||`<tr><td colspan="7">${emptyMessage}</td></tr>`}</tbody></table><p class="help">Totals: ${money(totalsRequested/100)} requested · ${money(totalsNet/100)} net received across accepted requests.</p>`;}else{withdrawPlan.innerHTML='';}
+ const withdrawPlan=document.querySelector('#withdrawPlan');withdrawPlan.hidden=mode==='bootstrap';if(mode!=='bootstrap'){const totalsRequested=withdrawals.reduce((sum,w)=>sum+w.requestedCents,0),totalsNet=withdrawals.filter(w=>w.status==='accepted').reduce((sum,w)=>sum+w.netCents,0),rows=withdrawals.map(w=>`<tr><td>${t('dayN',{n:w.day})}${formatPlanDate(startDate,w.day)?` · ${formatPlanDate(startDate,w.day)}`:''}</td><td class="right">${money(w.requestedCents/100)}</td><td class="right">${money(w.pendingCents/100)}</td><td class="right">${money(w.availableCents/100)}</td><td class="right">${w.status==='accepted'?money(w.feeCents/100):'—'}</td><td class="right"><strong>${w.status==='accepted'?money(w.netCents/100):'—'}</strong></td><td>${w.status==='accepted'?`<span class="tag">${t('withdrawStatusAccepted')}</span>`:t('withdrawStatusRejected',{reason:w.reason})}</td></tr>`).join('');const emptyMessage=withdrawStrategy==='none'?t('withdrawEmptyNone'):t('withdrawEmptyGeneric');withdrawPlan.innerHTML=`<h3>${t('withdrawPlannerHeading')}</h3><p class="help">${t('withdrawPlanHelp',{min:money(10)})}</p><table><thead><tr><th>${t('thRequestedDay')}</th><th class="right">${t('thRequested')}</th><th class="right">${t('thPendingHeld')}</th><th class="right">${t('thAvailableNonHeld')}</th><th class="right">${t('thFee10')}</th><th class="right">${t('thNetReceived')}</th><th>${t('thStatus')}</th></tr></thead><tbody>${rows||`<tr><td colspan="7">${emptyMessage}</td></tr>`}</tbody></table><p class="help">${t('withdrawTotals',{requested:money(totalsRequested/100),net:money(totalsNet/100)})}</p>`;}else{withdrawPlan.innerHTML='';}
 }
-document.querySelector('#run').addEventListener('click',render); document.querySelector('#strategy').addEventListener('change',()=>{document.querySelector('#sameLevel').disabled=document.querySelector('#strategy').value!=='same';render()}); document.querySelectorAll('input,select').forEach(x=>x.addEventListener('change',render)); render();
+function applyStaticTranslations(){
+ document.title=t('pageTitle');
+ document.querySelectorAll('[data-i18n]').forEach(el=>{el.textContent=t(el.getAttribute('data-i18n'));});
+ document.querySelectorAll('[data-i18n-html]').forEach(el=>{el.innerHTML=t(el.getAttribute('data-i18n-html'));});
+ document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{el.setAttribute('placeholder',t(el.getAttribute('data-i18n-placeholder')));});
+ document.querySelectorAll('[data-i18n-aria]').forEach(el=>{el.setAttribute('aria-label',t(el.getAttribute('data-i18n-aria')));});
+ document.querySelectorAll('#sameLevel option').forEach(o=>{o.textContent=t('levelOption',{n:o.value});});
+ const withdrawOptionKeys={none:'withdrawStrategyOptionNone',calendar:'withdrawStrategyOptionCalendar',weekly:'withdrawStrategyOptionWeekly',biweekly:'withdrawStrategyOptionBiweekly',recover:'withdrawStrategyOptionRecover'};
+ document.querySelectorAll('#withdrawStrategy option').forEach(o=>{o.textContent=t(withdrawOptionKeys[o.value]);});
+}
+function setLanguage(lang){
+ currentLang=lang==='es'?'es':'en';
+ try{localStorage.setItem('cbp_lang',currentLang);}catch(e){}
+ document.documentElement.lang=currentLang;
+ const select=document.querySelector('#langSelect');if(select)select.value=currentLang;
+ applyStaticTranslations();
+ render();
+}
+function initLanguage(){
+ let saved=null;
+ try{saved=localStorage.getItem('cbp_lang');}catch(e){}
+ currentLang=saved==='es'?'es':'en';
+ document.documentElement.lang=currentLang;
+ const select=document.querySelector('#langSelect');if(select)select.value=currentLang;
+ applyStaticTranslations();
+}
+initLanguage();
+document.querySelector('#langSelect').addEventListener('change',e=>setLanguage(e.target.value));
+document.querySelector('#run').addEventListener('click',render); document.querySelector('#strategy').addEventListener('change',()=>{document.querySelector('#sameLevel').disabled=document.querySelector('#strategy').value!=='same';render()}); document.querySelectorAll('input,select').forEach(x=>{if(x.id!=='langSelect')x.addEventListener('change',render)}); render();
 </script></body></html>
