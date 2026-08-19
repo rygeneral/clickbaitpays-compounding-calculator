@@ -273,14 +273,14 @@ test('portfolio strategy selects Level 6 campaigns once they become the better l
   assert.equal(result.pending, 3110.4);
 });
 
-test('withdrawal planner rejects requests below the USDT 10 minimum', () => {
+test('withdrawal planner rejects requests below the funds 10 minimum', () => {
   const { simulate, planWithdrawals } = loadSimulator();
   assert.equal(typeof planWithdrawals, 'function');
   const result = simulate(42, 30, 'same', '1', 0, 0);
 
   const [withdrawal] = planWithdrawals(result.path, [{ day: 19, amount: 5 }]);
   assert.equal(withdrawal.status, 'rejected');
-  assert.match(withdrawal.reason, /10.00 USDT minimum/);
+  assert.match(withdrawal.reason, /10.00 funds minimum/);
   assert.equal(withdrawal.feeCents, 0);
   assert.equal(withdrawal.netCents, 0);
 });
@@ -301,7 +301,7 @@ test('withdrawal planner never lets a request draw on held (pending) campaign ea
   const { simulate, planWithdrawals } = loadSimulator();
   const result = simulate(42, 30, 'same', '1', 0, 0);
 
-  // Day 5: only 2.00 USDT is available; 51.51 USDT is still held until Day 19.
+  // Day 5: only 2.00 funds is available; 51.51 funds is still held until Day 19.
   const [withdrawal] = planWithdrawals(result.path, [{ day: 5, amount: 20 }]);
   assert.equal(withdrawal.status, 'rejected');
   assert.match(withdrawal.reason, /held campaign earnings cannot be withdrawn/);
@@ -389,12 +389,12 @@ test('planPercentWithdrawals withdraws a percentage of available (non-held) bala
   assert.equal(JSON.stringify(biweekly.map(w => w.requestedCents)), JSON.stringify([10000, 9000]));
 });
 
-test('planPercentWithdrawals rejects a scheduled request that would fall below the USDT 10 minimum', () => {
+test('planPercentWithdrawals rejects a scheduled request that would fall below the funds 10 minimum', () => {
   const { planPercentWithdrawals } = loadSimulator();
   const path = syntheticPath(50, 30);
   const [withdrawal] = planPercentWithdrawals(path, 5, 7);
   assert.equal(withdrawal.status, 'rejected');
-  assert.match(withdrawal.reason, /10.00 USDT minimum/);
+  assert.match(withdrawal.reason, /10.00 funds minimum/);
 });
 
 test('planPercentWithdrawals never draws on held (pending/committed) campaign earnings', () => {
@@ -420,19 +420,19 @@ test('planRecoverThenPercentWithdrawals recovers starting cash first, then switc
   assert.equal(plan[3].requestedCents, 6075);
 });
 
-test('planRecoverThenPercentWithdrawals closes out a sub-minimum recovery remainder with a single USDT 10 request instead of stalling forever', () => {
+test('planRecoverThenPercentWithdrawals closes out a sub-minimum recovery remainder with a single funds 10 request instead of stalling forever', () => {
   const { planRecoverThenPercentWithdrawals } = loadSimulator();
   const path = syntheticPath(1000, 14);
 
   const plan = planRecoverThenPercentWithdrawals(path, 5, 10, 7);
-  assert.equal(plan[0].requestedCents, 1000, 'remaining recovery (500 cents) is below the minimum, so it rounds up to the USDT 10 floor');
+  assert.equal(plan[0].requestedCents, 1000, 'remaining recovery (500 cents) is below the minimum, so it rounds up to the funds 10 floor');
   assert.equal(plan[0].status, 'accepted');
   assert.equal(plan[1].requestedCents, 9900, '10% of the 99000 cents available after recovery closes out');
 });
 
 test('the withdrawal planner UI offers explicit strategy choices instead of a raw day:amount field', () => {
   const html = fs.readFileSync('index.html', 'utf8');
-  assert.doesNotMatch(html, /Withdrawal requests \(day:amount USDT, comma-separated\)/, 'raw day:amount input should be replaced');
+  assert.doesNotMatch(html, /Withdrawal requests \(day:amount funds, comma-separated\)/, 'raw day:amount input should be replaced');
   assert.match(html, /id="withdrawStrategy"/);
   assert.match(html, /<option value="none">/);
   assert.match(html, /<option value="calendar">/);
