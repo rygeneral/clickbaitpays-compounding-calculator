@@ -8,7 +8,7 @@ function loadI18n() {
   const script = html.match(/<script>([\s\S]*?)<\/script>/)[1];
   const core = script
     .slice(script.indexOf('const levels='), script.indexOf('function render()'))
-    .replace(/const sel=[\s\S]*?;\n/, '');
+    .replace(/const sel=[\s\S]*?existingLevelSel\.value='1';\n/, '');
   const context = {};
   vm.createContext(context);
   vm.runInContext(

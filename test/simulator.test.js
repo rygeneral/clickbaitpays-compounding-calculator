@@ -8,7 +8,7 @@ function loadSimulator() {
   const script = html.match(/<script>([\s\S]*?)<\/script>/)[1];
   const core = script
     .slice(script.indexOf('const levels='), script.indexOf('function render()'))
-    .replace(/const sel=[\s\S]*?;\n/, '');
+    .replace(/const sel=[\s\S]*?existingLevelSel\.value='1';\n/, '');
   const context = {};
   vm.createContext(context);
   vm.runInContext(`${core}; globalThis.__simulate = simulate; globalThis.__simulateHousehold = typeof simulateHousehold === 'undefined' ? undefined : simulateHousehold; globalThis.__simulateExpansion = typeof simulateExpansion === 'undefined' ? undefined : simulateExpansion; globalThis.__planWithdrawals = typeof planWithdrawals === 'undefined' ? undefined : planWithdrawals; globalThis.__parseWithdrawalRequests = typeof parseWithdrawalRequests === 'undefined' ? undefined : parseWithdrawalRequests; globalThis.__formatPlanDate = typeof formatPlanDate === 'undefined' ? undefined : formatPlanDate; globalThis.__dateToDay = typeof dateToDay === 'undefined' ? undefined : dateToDay; globalThis.__parseCalendarWithdrawalRequests = typeof parseCalendarWithdrawalRequests === 'undefined' ? undefined : parseCalendarWithdrawalRequests; globalThis.__planPercentWithdrawals = typeof planPercentWithdrawals === 'undefined' ? undefined : planPercentWithdrawals; globalThis.__planRecoverThenPercentWithdrawals = typeof planRecoverThenPercentWithdrawals === 'undefined' ? undefined : planRecoverThenPercentWithdrawals;`, context);
@@ -46,6 +46,54 @@ test('time compression never exceeds three campaigns awaiting click completion',
     const active = result.cycles.filter(cycle => cycle.start <= day && cycle.clickDone > day);
     assert.ok(active.length <= 3, `day ${day} has ${active.length} active campaigns`);
   }
+});
+
+test('existing-campaigns onboarding seeds the selected level/count as already-paid Day-0 campaigns', () => {
+  const { simulate } = loadSimulator();
+  const result = simulate(1000, 0, 'same', '1', 0, 0, 'growth', { level: 2, count: 3 });
+
+  const seeded = result.cycles.filter(cycle => cycle.start === 0);
+  assert.equal(seeded.length, 3);
+  assert.ok(seeded.every(cycle => cycle.level === 2), 'every seeded cycle uses the selected level');
+  assert.ok(seeded.every(cycle => cycle.cost === 0), 'existing campaigns are already paid, so they cost nothing in this plan');
+  assert.ok(seeded.every(cycle => cycle.clickDone === 12 && cycle.ready === 19), 'existing campaigns follow the normal Day 12 / Day 19 milestones from plan Day 0');
+});
+
+test('existing campaigns occupy active capacity, blocking new purchases from the separate starting cash when slots are full', () => {
+  const { simulate } = loadSimulator();
+  const result = simulate(1000, 0, 'same', '1', 0, 0, 'growth', { level: 1, count: 3 });
+
+  assert.equal(result.cycles.length, 3, 'no room remains for a new purchase once existing campaigns fill all 3 slots');
+  assert.equal(result.cash, 1000, 'starting available balance is untouched cash outside the existing campaigns');
+});
+
+test('existing campaigns respect the active de-risk slot cap, not just the raw 3-campaign limit', () => {
+  const { simulate } = loadSimulator();
+  const result = simulate(1000, 0, 'same', '1', 0, 0, 'fast', { level: 1, count: 1 });
+
+  assert.equal(result.cycles.length, 1, 'the fast de-risk setting allows only 1 active slot, already occupied by the existing campaign');
+  assert.equal(result.cash + result.protected, 1000, 'no new purchase happens even though cash is available, because the single slot is occupied (unused cash is set aside, not spent)');
+});
+
+test('existing campaigns release their published expected earnings on Day 19, exactly like a freshly bought campaign', () => {
+  const { simulate } = loadSimulator();
+  // same='7' with no starting cash means nothing is affordable before or after the Day-19 release,
+  // isolating the release itself from same-day reinvestment.
+  const result = simulate(0, 19, 'same', '7', 0, 0, 'growth', { level: 2, count: 1 });
+
+  assert.equal(result.cash, 101.70, 'the Level 2 published expected earnings (101.70) release on Day 19');
+  assert.equal(result.pending, 0, 'nothing remains pending once the Day-19 release has happened');
+  assert.ok(result.log.some(entry => entry.day === 19 && entry.kind === 'release'), 'a Day-19 release log entry is recorded for the existing campaign');
+});
+
+test('starting available balance stays separate cash outside existing campaigns and can still fund a new purchase when a slot is free', () => {
+  const { simulate } = loadSimulator();
+  const result = simulate(90, 0, 'same', '1', 0, 0, 'growth', { level: 1, count: 2 });
+
+  assert.equal(result.cycles.filter(cycle => cycle.cost === 0).length, 2, 'the 2 existing campaigns are seeded at zero cost');
+  const bought = result.cycles.filter(cycle => cycle.cost > 0);
+  assert.equal(bought.length, 1, 'the one remaining active slot can still be filled from the separate starting cash');
+  assert.equal(result.cash, 90 - bought[0].cost, 'only the newly purchased campaign draws down the separate starting cash');
 });
 
 test('household comparison is visibly isolated per eligible adult and bound to the household/IP limit', () => {
