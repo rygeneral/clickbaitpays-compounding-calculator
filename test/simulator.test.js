@@ -8,7 +8,7 @@ function loadSimulator() {
   const script = html.match(/<script>([\s\S]*?)<\/script>/)[1];
   const core = script
     .slice(script.indexOf('const levels='), script.indexOf('function render()'))
-    .replace(/const sel=[\s\S]*?existingLevelSel\.value='1';\n/, '');
+    .replace(/const sel=[\s\S]*?newLevelSel\.value='1';\n/, '');
   const context = {};
   vm.createContext(context);
   vm.runInContext(`${core}; globalThis.__simulate = simulate; globalThis.__simulateHousehold = typeof simulateHousehold === 'undefined' ? undefined : simulateHousehold; globalThis.__simulateExpansion = typeof simulateExpansion === 'undefined' ? undefined : simulateExpansion; globalThis.__planWithdrawals = typeof planWithdrawals === 'undefined' ? undefined : planWithdrawals; globalThis.__parseWithdrawalRequests = typeof parseWithdrawalRequests === 'undefined' ? undefined : parseWithdrawalRequests; globalThis.__formatPlanDate = typeof formatPlanDate === 'undefined' ? undefined : formatPlanDate; globalThis.__dateToDay = typeof dateToDay === 'undefined' ? undefined : dateToDay; globalThis.__parseCalendarWithdrawalRequests = typeof parseCalendarWithdrawalRequests === 'undefined' ? undefined : parseCalendarWithdrawalRequests; globalThis.__planPercentWithdrawals = typeof planPercentWithdrawals === 'undefined' ? undefined : planPercentWithdrawals; globalThis.__planRecoverThenPercentWithdrawals = typeof planRecoverThenPercentWithdrawals === 'undefined' ? undefined : planRecoverThenPercentWithdrawals;`, context);
@@ -94,6 +94,74 @@ test('starting available balance stays separate cash outside existing campaigns 
   const bought = result.cycles.filter(cycle => cycle.cost > 0);
   assert.equal(bought.length, 1, 'the one remaining active slot can still be filled from the separate starting cash');
   assert.equal(result.cash, 90 - bought[0].cost, 'only the newly purchased campaign draws down the separate starting cash');
+});
+
+test('new-campaigns onboarding seeds a single Level 1 campaign as a Day-0 purchase including its one-time activation fee', () => {
+  const { simulate } = loadSimulator();
+  const result = simulate(0, 0, 'same', '1', 0, 0, 'growth', null, { level: 1, count: 1 });
+
+  const seeded = result.cycles.filter(cycle => cycle.start === 0);
+  assert.equal(seeded.length, 1);
+  assert.equal(seeded[0].level, 1);
+  assert.equal(seeded[0].first, true, 'the first campaign at a newly-activated level always includes the activation fee');
+  assert.equal(seeded[0].cost, 14, 'Level 1 outlay is the 13 campaign cost plus the 1 one-time activation fee');
+  assert.equal(seeded[0].clickDone, 12);
+  assert.equal(seeded[0].ready, 19);
+});
+
+test('new-campaigns onboarding charges the one-time activation fee only once across multiple same-level campaigns (Level 5, 2 campaigns)', () => {
+  const { simulate } = loadSimulator();
+  const result = simulate(0, 0, 'same', '1', 0, 0, 'growth', null, { level: 5, count: 2 });
+
+  const seeded = result.cycles.filter(cycle => cycle.start === 0);
+  assert.equal(seeded.length, 2);
+  const costs = seeded.map(cycle => cycle.cost).sort((a, b) => b - a);
+  assert.equal(JSON.stringify(costs), JSON.stringify([660, 600]), 'only the first Level 5 campaign includes the 60 activation fee (600+60), the second is 600 campaign cost only');
+  assert.equal(seeded.filter(cycle => cycle.first).length, 1, 'exactly one seeded campaign carries the activation-fee flag');
+  assert.equal(costs.reduce((a, b) => a + b, 0), 1260, 'total required starting outlay for L5 x2 is 1260 (600*2 + 60 activation fee once)');
+});
+
+test('new campaigns are not already paid: their real cost is tracked, unlike the zero-cost existing-campaigns route', () => {
+  const { simulate } = loadSimulator();
+  const result = simulate(0, 0, 'same', '1', 0, 0, 'growth', null, { level: 1, count: 1 });
+  assert.ok(result.cycles[0].cost > 0, 'new campaigns are newly purchased, so cost must be non-zero unlike existing campaigns');
+});
+
+test('new campaigns occupy active capacity, blocking an additional purchase from the separate starting cash when slots are full', () => {
+  const { simulate } = loadSimulator();
+  const result = simulate(1000, 0, 'same', '1', 0, 0, 'growth', null, { level: 1, count: 3 });
+
+  assert.equal(result.cycles.length, 3, 'no room remains for an extra purchase once the new campaigns fill all 3 slots');
+  assert.equal(result.cash, 1000, 'the separate starting available balance stays untouched—the outlay is calculated and applied automatically, not drawn from this cash');
+});
+
+test('new campaigns respect the active de-risk slot cap, not just the raw 3-campaign limit', () => {
+  const { simulate } = loadSimulator();
+  const result = simulate(1000, 0, 'same', '1', 0, 0, 'fast', null, { level: 1, count: 1 });
+
+  assert.equal(result.cycles.length, 1, 'the fast de-risk setting allows only 1 active slot, already occupied by the new campaign');
+  assert.equal(result.cash + result.protected, 1000, 'no organic purchase happens even though cash is available, because the single slot is occupied (unused cash is set aside, not spent)');
+});
+
+test('new campaigns release their published expected earnings on Day 19, exactly like a freshly bought campaign', () => {
+  const { simulate } = loadSimulator();
+  const result = simulate(0, 19, 'same', '7', 0, 0, 'growth', null, { level: 2, count: 1 });
+
+  assert.equal(result.cash, 101.70, 'the Level 2 published expected earnings (101.70) release on Day 19');
+  assert.equal(result.pending, 0, 'nothing remains pending once the Day-19 release has happened');
+  assert.ok(result.log.some(entry => entry.day === 19 && entry.kind === 'release'), 'a Day-19 release log entry is recorded for the new campaign');
+});
+
+test('the separate starting cash can still fund one more organic purchase once new-campaign slots leave room', () => {
+  const { simulate } = loadSimulator();
+  const result = simulate(90, 0, 'same', '1', 0, 0, 'growth', null, { level: 1, count: 2 });
+
+  const seeded = result.cycles.filter(cycle => cycle.newPurchase);
+  assert.equal(seeded.length, 2, 'the 2 new campaigns are seeded as real Day-0 purchases');
+  const bought = result.cycles.filter(cycle => !cycle.newPurchase);
+  assert.equal(bought.length, 1, 'the one remaining active slot can still be filled organically from the separate starting cash');
+  assert.equal(bought[0].cost, 13, 'Level 1 is already activated by the seeded campaigns, so the organic purchase pays only the campaign cost, no second activation fee');
+  assert.equal(result.cash, 90 - bought[0].cost, 'only the organically-purchased campaign draws down the separate starting cash');
 });
 
 test('household comparison is visibly isolated per eligible adult and bound to the household/IP limit', () => {

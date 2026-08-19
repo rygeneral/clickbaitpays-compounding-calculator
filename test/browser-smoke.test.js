@@ -53,6 +53,51 @@ test('switching to "I already have campaigns running" reveals level/count fields
   });
 });
 
+test('switching to "I am starting new campaigns" reveals level/count fields and computes the required starting outlay, including the activation fee once', async () => {
+  await withPage(async (page) => {
+    await page.selectOption('#startingState', 'new');
+    assert.equal(await page.locator('#newFields').isVisible(), true);
+    await page.selectOption('#newLevel', '5');
+    await page.selectOption('#newCount', '2');
+
+    const note = await page.locator('#newOutlayNote').innerText();
+    assert.match(note, /1,260\.00/, 'Level 5 x2 outlay is 600*2 + 60 activation fee once = 1260.00');
+    assert.match(note, /Day 0/);
+
+    await page.locator('#run').click();
+    await page.waitForTimeout(50);
+
+    const events = await page.locator('#events').innerText();
+    assert.match(events, /L5/i, 'the reinvestment schedule should disclose the newly purchased Day-0 campaigns');
+
+    const nextAction = await page.locator('#nextAction').innerText();
+    assert.ok(nextAction.trim().length > 0);
+  });
+});
+
+test('new-campaign capacity fills all 3 slots automatically without spending the separately entered starting cash', async () => {
+  await withPage(async (page) => {
+    await page.selectOption('#startingState', 'new');
+    await page.selectOption('#newLevel', '1');
+    await page.selectOption('#newCount', '3');
+    await page.fill('#cash', '1000');
+    await page.locator('#run').click();
+    await page.waitForTimeout(50);
+
+    const nextAction = await page.locator('#nextAction').innerText();
+    assert.match(nextAction, /3 active campaign/i);
+    assert.match(nextAction, /1,000\.00/, 'the separate starting available balance is untouched by the calculated outlay');
+  });
+});
+
+test('the onboarding UI explains the New-vs-Existing distinction regardless of which route is selected', async () => {
+  await withPage(async (page) => {
+    const note = await page.locator('#routeDistinctionNote').innerText();
+    assert.match(note, /access\/activation fee/i);
+    assert.match(note, /already paid/i);
+  });
+});
+
 test('cash-only fresh start still runs a full scenario end to end', async () => {
   await withPage(async (page) => {
     assert.equal(await page.locator('#startingState').inputValue(), 'fresh');
