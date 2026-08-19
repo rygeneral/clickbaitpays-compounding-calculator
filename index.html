@@ -33,13 +33,13 @@
 <header><div class="eyebrow" style="color:#e8af76" data-i18n="eyebrow">Independent campaign scenario planner · not affiliated with ClickBaitPays</div><h1 data-i18n="h1Title">Compounding Planner</h1><p data-i18n="headerIntro">Compare campaign paths using the published campaign costs, one-time level activations, 12 click days, and seven-day hold. This is a cash-flow model—not a promise, recommendation, or return projection.</p><div class="langSwitch"><label for="langSelect" data-i18n="langLabel">Language</label><select id="langSelect"><option value="en">English</option><option value="es">Español</option></select></div></header>
 <main>
 <div class="notice" data-i18n-html="notice"><strong>Important reality check:</strong> the published materials describe campaign purchases as advertising services, not investments. This tool assumes every required daily click is completed, every campaign pays exactly as shown, funds are usable immediately after the stated hold, no deposits/withdrawals/referrals occur, and no fees beyond listed activation fees apply. Actual availability, payment timing, platform rules, crypto/network fees, and outcomes can differ.</div>
-<section class="quickstart" aria-label="What this planner does and how to use it" data-i18n-aria="quickstartAria"><h2 data-i18n="quickstartHeading">Plan your campaign path in minutes</h2><p data-i18n="quickstartIntro">Use this educational cash-flow tool to compare campaign combinations, Day-12 replacement timing, Day-19 released earnings, separate eligible-adult accounts, and optional withdrawal plans using your own starting balance and calendar date.</p><ol><li data-i18n-html="quickstartStep1"><b>1 · Set your starting facts</b>Enter available funds, a planning period, and—if you want calendar dates—your campaign start date.</li><li data-i18n-html="quickstartStep2"><b>2 · Pick a planning style</b>Keep the recommended best-mix setting or compare growth, cash-protection, account, and withdrawal choices.</li><li data-i18n-html="quickstartStep3"><b>3 · Run and follow the plan</b>Review the dated action schedule, campaign steps, available-versus-held cash, and withdrawal results. Re-run any time you change an input.</li></ol></section>
+<section class="quickstart" aria-label="What this planner does and how to use it" data-i18n-aria="quickstartAria"><h2 data-i18n="quickstartHeading">Plan your campaign path in minutes</h2><p data-i18n="quickstartIntro">Use this educational cash-flow tool to compare campaign combinations, Day-12 replacement timing, Day-19 released earnings, separate eligible-adult accounts, and optional withdrawal plans using your own starting balance and calendar date.</p><ol><li data-i18n-html="quickstartStep1"><b>1 · Set your starting facts</b>Enter available USDT, a planning period, and—if you want calendar dates—your campaign start date.</li><li data-i18n-html="quickstartStep2"><b>2 · Pick a planning style</b>Keep the recommended best-mix setting or compare growth, cash-protection, account, and withdrawal choices.</li><li data-i18n-html="quickstartStep3"><b>3 · Run and follow the plan</b>Review the dated action schedule, campaign steps, available-versus-held cash, and withdrawal results. Re-run any time you change an input.</li></ol></section>
 <div class="grid"><aside class="panel controls"><div class="eyebrow" data-i18n="scenarioEyebrow">Quick plan</div><h2 data-i18n="scenarioHeading">Set a starting path</h2><p class="help" data-i18n="quickPlanIntro">Answer these questions and run the plan. Everything else is optional and lives in Advanced options below — no capability has been removed.</p>
 <label for="startingState" data-i18n="onboardingLabel">How are you starting?</label><select id="startingState"><option value="fresh" data-i18n="onboardingOptionFresh">I am starting fresh (cash only)</option><option value="existing" data-i18n="onboardingOptionExisting">I already have campaigns running</option><option value="new" data-i18n="onboardingOptionNew">I am starting new campaigns</option></select>
 <div class="help" id="routeDistinctionNote" data-i18n="routeDistinctionNote"></div>
 <div id="existingFields" hidden><label for="existingLevel" data-i18n="existingLevelLabel">Existing campaign level</label><select id="existingLevel"></select><label for="existingCount" data-i18n="existingCountLabel">Active campaigns already running</label><select id="existingCount"><option value="1" data-i18n="existingCountOption1">1 campaign</option><option value="2" data-i18n="existingCountOption2">2 campaigns</option><option value="3" data-i18n="existingCountOption3">3 campaigns (maximum active capacity)</option></select><div class="help" id="existingAssumptionNote"></div></div>
 <div id="newFields" hidden><label for="newLevel" data-i18n="newLevelLabel">New campaign level</label><select id="newLevel"></select><label for="newCount" data-i18n="newCountLabel">New campaigns to start on Day 0</label><select id="newCount"><option value="1" data-i18n="newCountOption1">1 campaign</option><option value="2" data-i18n="newCountOption2">2 campaigns</option><option value="3" data-i18n="newCountOption3">3 campaigns (maximum active capacity)</option></select><div class="help" id="newOutlayNote"></div></div>
-<label for="cash" data-i18n="cashLabel">Starting available balance (funds)</label><input id="cash" type="number" min="0" step="0.01" value="14"><div class="help" id="cashHelpText" data-i18n="cashHelp">Use 14 for the first Level 1: 13 campaign + 1 activation. Use 330 for the first Level 4: 300 + 30.</div>
+<label for="cash" data-i18n="cashLabel">Starting available balance (USDT)</label><input id="cash" type="number" min="0" step="0.01" value="14"><div class="help" id="cashHelpText" data-i18n="cashHelp">Use 14 for the first Level 1: 13 campaign + 1 activation. Use 330 for the first Level 4: 300 + 30.</div>
 <label for="startDate" data-i18n="startDateLabel">Actual campaign start date</label><input id="startDate" type="date"><div class="help" data-i18n="startDateHelp">Optional. When set, every Day 0 / Day 12 / Day 19 action is shown with a calendar date. Leave blank to keep day-number planning only.</div>
 <label for="days" data-i18n="daysLabel">Planning period</label><select id="days"><option value="365" data-i18n="daysOption365">1 year (365 days)</option><option value="180" data-i18n="daysOption180">6 months (180 days)</option><option value="90" data-i18n="daysOption90">90 days</option></select>
 <label for="quickGoal" data-i18n="quickGoalLabel">What matters most right now?</label><select id="quickGoal"><option value="growth" data-i18n="quickGoalOptionGrowth">Grow as fast as possible (reinvest in up to 3 active campaigns)</option><option value="protect" data-i18n="quickGoalOptionProtect">Protect my starting cash first, then grow</option></select>
@@ -50,11 +50,11 @@
 <label for="derisk" data-i18n="deriskLabel">When should I set aside my starting cash?</label><select id="derisk"><option value="growth" data-i18n="deriskOptionGrowth">Grow fastest: reinvest in up to 3 active campaigns</option><option value="balanced" data-i18n="deriskOptionBalanced">Balanced: keep up to 2 active campaigns, then set aside surplus</option><option value="fast" data-i18n="deriskOptionFast">Recover starting cash sooner: keep 1 active campaign, then set aside surplus</option></select><div class="help" data-i18n-html="deriskHelp">An <b>active campaign</b> is one campaign still in its first 12 click days. Each account can have up to 3 active campaigns at once. “Set aside” means Available Balance kept out of the next purchase in this plan—not an automatic platform withdrawal.</div>
 <label for="sameLevel" data-i18n="sameLevelLabel">“Stay at” level</label><select id="sameLevel"></select><div id="sameLevelHelp" class="help"></div>
 <h3 data-i18n="day12FundsHeading">Optional day-12 funds — per selected eligible-adult account</h3><div class="help" data-i18n="day12FundsHeadingHelp">Each amount below is applied separately to every selected eligible-adult account; it is not one pooled household deposit. These funds are modeled as already available cash—e.g., a new deposit that has cleared or referral commissions credited to that account’s available balance. Campaign earnings themselves remain in the 7-day hold until Day 19.</div>
-<label for="day12Funds" data-i18n="day12FundsLabel">One-time cash available on Day 12, per selected eligible-adult account (funds)</label><input id="day12Funds" type="number" min="0" step="0.01" value="0">
-<label for="repeatFunds" data-i18n="repeatFundsLabel">Recurring cash available every 12 days, per selected eligible-adult account (funds)</label><input id="repeatFunds" type="number" min="0" step="0.01" value="0"><div class="help" data-i18n="repeatFundsHelp">Applied separately on Days 12, 24, 36 … This lets you compare a regular referral/deposit contribution path.</div>
+<label for="day12Funds" data-i18n="day12FundsLabel">One-time cash available on Day 12, per selected eligible-adult account (USDT)</label><input id="day12Funds" type="number" min="0" step="0.01" value="0">
+<label for="repeatFunds" data-i18n="repeatFundsLabel">Recurring cash available every 12 days, per selected eligible-adult account (USDT)</label><input id="repeatFunds" type="number" min="0" step="0.01" value="0"><div class="help" data-i18n="repeatFundsHelp">Applied separately on Days 12, 24, 36 … This lets you compare a regular referral/deposit contribution path.</div>
 <label for="households" data-i18n="householdsLabel">Eligible adult accounts to compare</label><select id="households"><option value="1" data-i18n="householdsOption1">1 account (one person)</option><option value="2" data-i18n="householdsOption2">2 separate eligible adults</option><option value="3" data-i18n="householdsOption3">3 separate eligible adults (household maximum)</option></select><div class="help" data-i18n="householdsHelp">Comparison only: each scenario is per eligible adult account. Up to 3 accounts total per household/IP; it is not a way for one person to run multiple accounts.</div>
 <label for="householdMode" data-i18n="householdModeLabel">Household plan</label><select id="householdMode"><option value="parallel" data-i18n="householdModeOptionParallel">Parallel start: each selected adult begins with the entered balance</option><option value="bootstrap" data-i18n="householdModeOptionBootstrap">Bootstrap: Account 1 seeds other eligible adults after funds are available</option></select><div class="help" data-i18n="householdModeHelp">Bootstrap models a Pay It Forward seed only after funds enter Available Balance. The recipient adult must own and operate their own account.</div>
-<h3 data-i18n="withdrawPlannerHeading">Withdrawal planner — per eligible adult account</h3><label for="withdrawStrategy" data-i18n="withdrawStrategyLabel">Withdrawal plan</label><select id="withdrawStrategy"><option value="none">No withdrawals</option><option value="calendar">My own calendar dates &amp; fixed amounts</option><option value="weekly">Withdraw a % of available balance weekly</option><option value="biweekly">Withdraw a % of available balance every 2 weeks</option><option value="recover">Recover starting cash first, then withdraw a % weekly</option></select><div id="withdrawCalendarFields"><label for="withdrawCalendarRequests" data-i18n="withdrawCalendarLabel">Withdrawal dates &amp; amounts (YYYY-MM-DD:amount funds, comma-separated)</label><input id="withdrawCalendarRequests" type="text" placeholder="e.g. 2026-09-15:50, 2026-10-15:100" value="" data-i18n-placeholder="withdrawCalendarPlaceholder"><div class="help" data-i18n="withdrawCalendarHelp">Dates are mapped to plan days from the start date above.</div></div><div id="withdrawPercentFields"><label for="withdrawPercent" data-i18n="withdrawPercentLabel">Percent of available balance per scheduled withdrawal</label><input id="withdrawPercent" type="number" min="0" max="100" step="1" value="10"></div><div class="help" data-i18n="withdrawGeneralHelp">Checked against this scenario’s available (non-held) balance only. 10 funds minimum per request, 10% fee, and at most one accepted request per rolling 7 days. Never draws on held (pending) campaign earnings. Not available in Bootstrap view.</div>
+<h3 data-i18n="withdrawPlannerHeading">Withdrawal planner — per eligible adult account</h3><label for="withdrawStrategy" data-i18n="withdrawStrategyLabel">Withdrawal plan</label><select id="withdrawStrategy"><option value="none">No withdrawals</option><option value="calendar">My own calendar dates &amp; fixed amounts</option><option value="weekly">Withdraw a % of available balance weekly</option><option value="biweekly">Withdraw a % of available balance every 2 weeks</option><option value="recover">Recover starting cash first, then withdraw a % weekly</option></select><div id="withdrawCalendarFields"><label for="withdrawCalendarRequests" data-i18n="withdrawCalendarLabel">Withdrawal dates &amp; amounts (YYYY-MM-DD:amount USDT, comma-separated)</label><input id="withdrawCalendarRequests" type="text" placeholder="e.g. 2026-09-15:50, 2026-10-15:100" value="" data-i18n-placeholder="withdrawCalendarPlaceholder"><div class="help" data-i18n="withdrawCalendarHelp">Dates are mapped to plan days from the start date above.</div></div><div id="withdrawPercentFields"><label for="withdrawPercent" data-i18n="withdrawPercentLabel">Percent of available balance per scheduled withdrawal</label><input id="withdrawPercent" type="number" min="0" max="100" step="1" value="10"></div><div class="help" data-i18n="withdrawGeneralHelp">Checked against this scenario’s available (non-held) balance only. USDT 10 minimum per request, 10% fee, and at most one accepted request per rolling 7 days. Never draws on held (pending) campaign earnings. Not available in Bootstrap view.</div>
 </details>
 <div class="note bad" data-i18n-html="accountRuleNote"><b>Account rule:</b> published CBP terms say one account per individual and up to three accounts total per household/IP for different adults, with unique emails and the same original sponsor. Register from the home IP—no VPN or mobile-data registration. No proxies, bots, auto-clickers, or identity masking.</div>
 </aside>
@@ -78,14 +78,14 @@ const I18N={
   quickstartAria:'What this planner does and how to use it',
   quickstartHeading:'Plan your campaign path in minutes',
   quickstartIntro:'Use this educational cash-flow tool to compare campaign combinations, Day-12 replacement timing, Day-19 released earnings, separate eligible-adult accounts, and optional withdrawal plans using your own starting balance and calendar date.',
-  quickstartStep1:'<b>1 · Set your starting facts</b>Enter available funds, a planning period, and—if you want calendar dates—your campaign start date.',
+  quickstartStep1:'<b>1 · Set your starting facts</b>Enter available USDT, a planning period, and—if you want calendar dates—your campaign start date.',
   quickstartStep2:'<b>2 · Pick a planning style</b>Keep the recommended best-mix setting or compare growth, cash-protection, account, and withdrawal choices.',
   quickstartStep3:'<b>3 · Run and follow the plan</b>Review the dated action schedule, campaign steps, available-versus-held cash, and withdrawal results. Re-run any time you change an input.',
   scenarioEyebrow:'Quick plan',
   scenarioHeading:'Set a starting path',
   quickPlanIntro:'Answer these questions and run the plan. Everything else is optional and lives in Advanced options below — no capability has been removed.',
   onboardingLabel:'How are you starting?',
-  onboardingOptionFresh:'I have funds available — let the planner choose my first campaigns',
+  onboardingOptionFresh:'I have USDT available — let the planner choose my first campaigns',
   onboardingOptionExisting:'I already paid for campaigns — show what happens next',
   onboardingOptionNew:'I want to choose and pay for new campaigns now (fee included)',
   routeDistinctionNote:'<b>New campaigns</b> = this plan purchases them on Day 0 and the calculated outlay includes the one-time level access/activation fee. <b>Existing campaigns</b> = already paid outside this plan, so no purchase cost is counted here.',
@@ -101,7 +101,7 @@ const I18N={
   newCountOption2:'2 campaigns',
   newCountOption3:'3 campaigns (maximum active capacity)',
   newOutlayNote:'Required starting outlay for {count} Level {level} campaign(s) on Day 0: <b>{outlay}</b> ({fee} one-time level access/activation fee, charged only once, plus {campaignCost} campaign cost). These campaigns occupy {count} of your 3 active-campaign slots. The starting available balance below is separate, optional cash held outside this outlay.',
-  cashLabel:'Starting available balance (funds)',
+  cashLabel:'Starting available balance (USDT)',
   cashHelp:'Use 14 for the first Level 1: 13 campaign + 1 activation. Use 330 for the first Level 4: 300 + 30.',
   cashHelpExisting:'This is cash outside your existing campaigns—e.g. leftover balance, a new deposit, or referral cash not yet committed to a campaign.',
   cashHelpNew:'This is optional cash separate from the required starting outlay above—e.g. extra balance to fund additional campaigns beyond the ones you are starting new.',
@@ -146,8 +146,8 @@ const I18N={
   levelOption:'Level {n}',
   day12FundsHeading:'Optional day-12 funds — per selected eligible-adult account',
   day12FundsHeadingHelp:'Each amount below is applied separately to every selected eligible-adult account; it is not one pooled household deposit. These funds are modeled as already available cash—e.g., a new deposit that has cleared or referral commissions credited to that account’s available balance. Campaign earnings themselves remain in the 7-day hold until Day 19.',
-  day12FundsLabel:'One-time cash available on Day 12, per selected eligible-adult account (funds)',
-  repeatFundsLabel:'Recurring cash available every 12 days, per selected eligible-adult account (funds)',
+  day12FundsLabel:'One-time cash available on Day 12, per selected eligible-adult account (USDT)',
+  repeatFundsLabel:'Recurring cash available every 12 days, per selected eligible-adult account (USDT)',
   repeatFundsHelp:'Applied separately on Days 12, 24, 36 … This lets you compare a regular referral/deposit contribution path.',
   householdsLabel:'Eligible adult accounts to compare',
   householdsOption1:'1 account (one person)',
@@ -165,11 +165,11 @@ const I18N={
   withdrawStrategyOptionWeekly:'Withdraw a % of available balance weekly',
   withdrawStrategyOptionBiweekly:'Withdraw a % of available balance every 2 weeks',
   withdrawStrategyOptionRecover:'Recover starting cash first, then withdraw a % weekly',
-  withdrawCalendarLabel:'Withdrawal dates & amounts (YYYY-MM-DD:amount funds, comma-separated)',
+  withdrawCalendarLabel:'Withdrawal dates & amounts (YYYY-MM-DD:amount USDT, comma-separated)',
   withdrawCalendarPlaceholder:'e.g. 2026-09-15:50, 2026-10-15:100',
   withdrawCalendarHelp:'Dates are mapped to plan days from the start date above.',
   withdrawPercentLabel:'Percent of available balance per scheduled withdrawal',
-  withdrawGeneralHelp:'Checked against this scenario’s available (non-held) balance only. 10 funds minimum per request, 10% fee, and at most one accepted request per rolling 7 days. Never draws on held (pending) campaign earnings. Not available in Bootstrap view.',
+  withdrawGeneralHelp:'Checked against this scenario’s available (non-held) balance only. USDT 10 minimum per request, 10% fee, and at most one accepted request per rolling 7 days. Never draws on held (pending) campaign earnings. Not available in Bootstrap view.',
   runButton:'Run scenario',
   accountRuleNote:'<b>Account rule:</b> published CBP terms say one account per individual and up to three accounts total per household/IP for different adults, with unique emails and the same original sponsor. Register from the home IP—no VPN or mobile-data registration. No proxies, bots, auto-clickers, or identity masking.',
   modeledOutcomeEyebrow:'Modeled outcome',
@@ -239,7 +239,7 @@ const I18N={
   activationSuffix:' + activation',
   householdLeftInAccount:'{amount} left in this account',
   expansionHeading:'Bootstrap expansion plan — Account 1 to {acct} separate eligible adults (first 12 events)',
-  expansionHelp:'Each account first maximizes its own replacement campaigns, up to its active-slot capacity and the selected seed-capital recovery filter; only genuine leftover surplus funds the next modeled 14.00 funds Pay It Forward seed. This is one best modeled path for comparison, not a profit guarantee or a recommendation to transfer funds. Each recipient owns and operates their own account.',
+  expansionHelp:'Each account first maximizes its own replacement campaigns, up to its active-slot capacity and the selected seed-capital recovery filter; only genuine leftover surplus funds the next modeled 14.00 USDT Pay It Forward seed. This is one best modeled path for comparison, not a profit guarantee or a recommendation to transfer funds. Each recipient owns and operates their own account.',
   expansionEventDayHeader:'Event day',
   expansionNoCampaigns:'Starting cash cannot launch Account 1.',
   expansionPifSent:'PIF {amount} → Account {to}',
@@ -292,14 +292,14 @@ const I18N={
   quickstartAria:'Qué hace este planificador y cómo usarlo',
   quickstartHeading:'Planifica tu ruta de campaña en minutos',
   quickstartIntro:'Usa esta herramienta educativa de flujo de caja para comparar combinaciones de campañas, el momento de reemplazo del Día 12, las ganancias liberadas del Día 19, cuentas separadas de adultos elegibles y planes de retiro opcionales usando tu propio saldo inicial y fecha de calendario.',
-  quickstartStep1:'<b>1 · Define tus datos iniciales</b>Ingresa los fondos disponibles, un período de planificación y, si deseas fechas de calendario, la fecha de inicio de tu campaña.',
+  quickstartStep1:'<b>1 · Define tus datos iniciales</b>Ingresa el USDT disponible, un período de planificación y, si deseas fechas de calendario, la fecha de inicio de tu campaña.',
   quickstartStep2:'<b>2 · Elige un estilo de planificación</b>Mantén la configuración recomendada de mejor combinación o compara opciones de crecimiento, protección de efectivo, cuentas y retiros.',
   quickstartStep3:'<b>3 · Ejecuta y sigue el plan</b>Revisa el calendario de acciones con fechas, los pasos de la campaña, el efectivo disponible frente al retenido y los resultados de retiro. Vuelve a ejecutar cada vez que cambies un dato.',
   scenarioEyebrow:'Plan rápido',
   scenarioHeading:'Define una ruta inicial',
   quickPlanIntro:'Responde estas preguntas y ejecuta el plan. Todo lo demás es opcional y está en Opciones avanzadas más abajo—no se eliminó ninguna función.',
   onboardingLabel:'¿Cómo estás comenzando?',
-  onboardingOptionFresh:'Tengo fondos disponibles; que el planificador elija mis primeras campañas',
+  onboardingOptionFresh:'Tengo USDT disponible; que el planificador elija mis primeras campañas',
     onboardingOptionExisting:'Ya pagué campañas; mostrar lo que sigue',
     onboardingOptionNew:'Quiero elegir y pagar campañas nuevas ahora (tarifa incluida)',
   routeDistinctionNote:'<b>Campañas nuevas</b> = este plan las compra el Día 0 y el desembolso calculado incluye la cuota única de acceso/activación del nivel. <b>Campañas existentes</b> = ya pagadas fuera de este plan, por lo que aquí no se cuenta ningún costo de compra.',
@@ -315,7 +315,7 @@ const I18N={
   newCountOption2:'2 campañas',
   newCountOption3:'3 campañas (capacidad activa máxima)',
   newOutlayNote:'Desembolso inicial requerido para {count} campaña(s) de Nivel {level} el Día 0: <b>{outlay}</b> ({fee} de cuota única de acceso/activación del nivel, cobrada solo una vez, más {campaignCost} de costo de campaña). Estas campañas ocupan {count} de tus 3 espacios de campaña activa. El saldo disponible inicial de abajo es efectivo opcional y separado de este desembolso.',
-  cashLabel:'Fondos disponibles iniciales',
+  cashLabel:'Saldo disponible inicial (USDT)',
   cashHelp:'Usa 14 para el primer Nivel 1: 13 de campaña + 1 de activación. Usa 330 para el primer Nivel 4: 300 + 30.',
   cashHelpExisting:'Este es el efectivo fuera de tus campañas existentes—por ejemplo, saldo restante, un nuevo depósito o efectivo de referidos aún no comprometido con una campaña.',
   cashHelpNew:'Este es efectivo opcional, separado del desembolso inicial requerido de arriba—por ejemplo, saldo adicional para financiar campañas más allá de las que estás iniciando nuevas.',
@@ -360,8 +360,8 @@ const I18N={
   levelOption:'Nivel {n}',
   day12FundsHeading:'Fondos opcionales del día 12 — por cada cuenta de adulto elegible seleccionada',
   day12FundsHeadingHelp:'Cada monto a continuación se aplica por separado a cada cuenta de adulto elegible seleccionada; no es un depósito único agrupado del hogar. Estos fondos se modelan como efectivo ya disponible, por ejemplo, un nuevo depósito ya acreditado o comisiones de referidos ya acreditadas al saldo disponible de esa cuenta. Las ganancias de la campaña en sí permanecen en la retención de 7 días hasta el Día 19.',
-  day12FundsLabel:'Fondos únicos disponibles el Día 12, por cada cuenta de adulto elegible seleccionada',
-  repeatFundsLabel:'Fondos recurrentes disponibles cada 12 días, por cada cuenta de adulto elegible seleccionada',
+  day12FundsLabel:'Efectivo único disponible el Día 12, por cada cuenta de adulto elegible seleccionada (USDT)',
+  repeatFundsLabel:'Efectivo recurrente disponible cada 12 días, por cada cuenta de adulto elegible seleccionada (USDT)',
   repeatFundsHelp:'Se aplica por separado en los Días 12, 24, 36… Esto te permite comparar una ruta de aportes regulares por referidos o depósitos.',
   householdsLabel:'Cuentas de adultos elegibles a comparar',
   householdsOption1:'1 cuenta (una persona)',
@@ -379,11 +379,11 @@ const I18N={
   withdrawStrategyOptionWeekly:'Retirar un % del saldo disponible semanalmente',
   withdrawStrategyOptionBiweekly:'Retirar un % del saldo disponible cada 2 semanas',
   withdrawStrategyOptionRecover:'Recuperar primero el efectivo inicial y luego retirar un % semanalmente',
-  withdrawCalendarLabel:'Fechas y montos de retiro (AAAA-MM-DD:monto, separados por comas)',
+  withdrawCalendarLabel:'Fechas y montos de retiro (AAAA-MM-DD:monto USDT, separados por comas)',
   withdrawCalendarPlaceholder:'p. ej. 2026-09-15:50, 2026-10-15:100',
   withdrawCalendarHelp:'Las fechas se convierten a días del plan a partir de la fecha de inicio anterior.',
   withdrawPercentLabel:'Porcentaje del saldo disponible por retiro programado',
-  withdrawGeneralHelp:'Se verifica solo contra el saldo disponible (no retenido) de este escenario. Mínimo de 10 fondos por solicitud, comisión del 10% y como máximo una solicitud aceptada cada 7 días consecutivos. Nunca se toma de ganancias de campaña retenidas (pendientes). No disponible en la vista de Impulso inicial.',
+  withdrawGeneralHelp:'Se verifica solo contra el saldo disponible (no retenido) de este escenario. Mínimo de 10 USDT por solicitud, comisión del 10% y como máximo una solicitud aceptada cada 7 días consecutivos. Nunca se toma de ganancias de campaña retenidas (pendientes). No disponible en la vista de Impulso inicial.',
   runButton:'Ejecutar escenario',
   accountRuleNote:'<b>Regla de cuenta:</b> los términos publicados de CBP indican una cuenta por persona y hasta tres cuentas en total por hogar/IP para distintos adultos, con correos únicos y el mismo patrocinador original. Regístrate desde la IP del hogar, sin VPN ni registro por datos móviles. Sin proxies, bots, auto-clickers ni enmascaramiento de identidad.',
   modeledOutcomeEyebrow:'Resultado modelado',
@@ -453,7 +453,7 @@ const I18N={
   activationSuffix:' + activación',
   householdLeftInAccount:'{amount} restante en esta cuenta',
   expansionHeading:'Plan de expansión de impulso inicial — Cuenta 1 hacia {acct} adultos elegibles separados (primeros 12 eventos)',
-  expansionHelp:'Cada cuenta primero maximiza sus propias campañas de reemplazo, hasta su capacidad de espacios activos y el filtro de recuperación de capital semilla seleccionado; solo el excedente genuino financia la siguiente semilla Pay It Forward modelada de 14.00 funds. Esta es una mejor ruta modelada para comparación, no una garantía de ganancias ni una recomendación de transferir fondos. Cada receptor es dueño y opera su propia cuenta.',
+  expansionHelp:'Cada cuenta primero maximiza sus propias campañas de reemplazo, hasta su capacidad de espacios activos y el filtro de recuperación de capital semilla seleccionado; solo el excedente genuino financia la siguiente semilla Pay It Forward modelada de 14.00 USDT. Esta es una mejor ruta modelada para comparación, no una garantía de ganancias ni una recomendación de transferir fondos. Cada receptor es dueño y opera su propia cuenta.',
   expansionEventDayHeader:'Día del evento',
   expansionNoCampaigns:'El efectivo inicial no alcanza para iniciar la Cuenta 1.',
   expansionPifSent:'PIF {amount} → Cuenta {to}',
@@ -499,7 +499,7 @@ const I18N={
 };
 let currentLang='en';
 function t(key,vars){const table=I18N[currentLang]||I18N.en;let str=Object.prototype.hasOwnProperty.call(table,key)?table[key]:I18N.en[key];if(str===undefined)return key;if(vars){Object.keys(vars).forEach(k=>{str=str.split('{'+k+'}').join(vars[k]);});}return str;}
-const money=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',minimumFractionDigits:2,maximumFractionDigits:2}).format(n).replace('$','')+' '+(currentLang==='es'?'fondos':'funds');
+const money=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',minimumFractionDigits:2,maximumFractionDigits:2}).format(n).replace('$','')+' USDT';
 function formatPlanDate(startDate,day){if(!/^\d{4}-\d{2}-\d{2}$/.test(startDate||''))return '';const date=new Date(`${startDate}T12:00:00Z`);date.setUTCDate(date.getUTCDate()+day);const locale=currentLang==='es'?'es-ES':'en-US';return new Intl.DateTimeFormat(locale,{month:'short',day:'numeric',year:'numeric',timeZone:'UTC'}).format(date);}
 const sel=document.querySelector('#sameLevel'); levels.forEach(x=>sel.add(new Option('Level '+x.n,x.n))); sel.value='1';
 const existingLevelSel=document.querySelector('#existingLevel'); levels.forEach(x=>existingLevelSel.add(new Option('Level '+x.n,x.n))); existingLevelSel.value='1';
